@@ -2,7 +2,17 @@
 <!DOCTYPE configuration
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
 <configuration>
+
+        <!--将<settings>标签包含的代码写到<configuration>标签中-->
+        <!--<settings>:控制mybatis全局行为-->
+        <settings>
+            <!--设置mybatis输出日志-->
+            <!--logImpl代表控制日志，STDOUT_LOGGING代表打日志输出到控制台上-->
+            <setting name="logImpl" value="STDOUT_LOGGING" />
+        </settings>
     <!--
         环境配置 ：数据库的连接信息，这个标签带有s，说明可以有多个配置信息
             default : 必须和某个environment的id值一样。给我mybatis

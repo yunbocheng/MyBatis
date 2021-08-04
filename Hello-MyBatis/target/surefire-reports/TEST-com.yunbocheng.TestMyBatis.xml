@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="com.yunbocheng.TestMyBatis" time="0.371" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="com.yunbocheng.TestMyBatis" time="0.869" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2021.2"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -65,5 +65,5 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.yunbocheng.TestMyBatis" name="testInsert" time="0.371"/>
+  <testcase classname="com.yunbocheng.TestMyBatis" name="testInsert" time="0.869"/>
 </testsuite>

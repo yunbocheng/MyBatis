@@ -30,17 +30,17 @@ public class TestMyBatis {
         String sqlId = "com.yunbocheng.dao.StudentDao.insertStudent";
         // 7.创建一个Student对象
         Student student = new Student();
-        student.setId(5);
-        student.setName("1005");
-        student.setEmail("qianba56@com");
-        student.setAge(60);
+        student.setId(9);
+        student.setName("1009");
+        student.setEmail("liwuf@45.com");
+        student.setAge(90);
         // 8. 执行sql语句，通过sqlId找到语句
-        // int nums = sqlSession.insert(sqlId, student);
+        int nums = sqlSession.insert(sqlId, student);
         // 9.提交事务，MyBatis默认不是自动提交事务的，
         // 所以在insert、update、delete后要手动提交事务。
         sqlSession.commit();
         // 10. 输出结果
-        System.out.println("执行insert的结果：" + 1);
+        System.out.println("执行insert的结果：" + nums);
         // 11 关闭SqlSession对象
         sqlSession.close();
         /*
@@ -49,5 +49,4 @@ public class TestMyBatis {
          *  Student{id=2, name='1002', email='lisi@12.com', age=28}
          * */
     }
-
 }
