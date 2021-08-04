@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+        环境配置 ：数据库的连接信息，这个标签带有s，说明可以有多个配置信息
+            default : 必须和某个environment的id值一样。给我mybatis
+                      使用哪个数据库的连接信息，也就是访问哪个数据库。
+    -->
+    <environments default="mydev">
+        <!--
+            environment ：一个数据库信息的配置，也就是环境。
+            id : 是一个唯一值，是自定义的，表示环境的名曾。
+        -->
+        <environment id="mydev">
+            <!--
+                transactionManager : 代表mybatis的事务类型，
+                type：JDBC(代表使用jdbc中的Connection对象的commit,rollback做事务处理)
+            -->
+            <transactionManager type="JDBC"/>
+            <!--
+                dataSource : 代表数据源，连接数据库
+                    type : 表示数据源的类型， POOLED表示使用连接池。
+                    其他值会在后边讲解。
+            -->
+            <dataSource type="POOLED">
+                <!--
+                    以下写的就是以前jdbc中，注册驱动，连接数的基本信息的。
+                    driver、url、username、password 是固定的，不能自定义。
+                -->
+                <!--数据库的驱动类名-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <!--连接数据库的url字符串-->
+                <property name="url" value="jdbc:mysql://localhost:3306/ssm?characterEncoding=utf-8"/>
+                <!--访问数据库的用户名-->
+                <property name="username" value="root"/>
+                <!--密码-->
+                <property name="password" value="567cybtfboys"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--
+    sql mapper(sql映射文件)的位置，
+    这个标签里边有s，说明这个标签中包含多个mapper(映射文件)
+    -->
+    <mappers>
+        <!--
+            一个mapper标签指定一个文件的位置。这个文件就是执行sql语句的配置文件
+            这个位置 从类路径开始的路径信息。
+
+            resource的值是一个路径信息。
+            resource : 这个类路径是从 target/classes(类路径)才开始的。
+            这个类路径才是最终填写到的resource下的内容。
+            这个路径找的不是这个接口，而是执行sql语句的配置文件。
+
+            前提是保证这个执行sql语句的配置文件和这个接口在compile命令编译之后
+            处于同一级目录之下。此时需要在pom.xml配置文件中写入<resources>标签内容
+            保证在主程序下的非java文件也可以编译到target下。
+        -->
+        <!--这个mapper可以出现多次，有多少个sql配置文件就有多少个mapper标签-->
+        <!--每一个sql配置文件都对应一张数据库表-->
+        <mapper resource="com/yunbocheng/dao/StudentDao.xml"/>
+    </mappers>
+</configuration>
+
+<!--
+   这个文件是 mybatis的主配置文件：
+     1. 主要定义了数据库的配置信息。
+     2. sql映射文件的位置
+
+   1. 约束文件
+        <!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+       mybatis-3-config.dtd : 约束文件名称
+
+   2. <configuration> 根标签 ：代表各种配置信息。
+
+-->
