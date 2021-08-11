@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * 这是一个接口操作Student表
+ * 这个接口在这个项目中不会用到
  */
 public interface StudentDao {
 

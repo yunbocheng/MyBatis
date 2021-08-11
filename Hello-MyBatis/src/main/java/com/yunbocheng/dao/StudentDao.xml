@@ -12,6 +12,7 @@
     </select>
 
     <!--插入操作-->
+    <!--这个是插入操作，没有返回值，所以不需要写resultType属性 -->
     <insert id="insertStudent">
         insert into student values (#{id},#{name},#{email},#{age});
     </insert>

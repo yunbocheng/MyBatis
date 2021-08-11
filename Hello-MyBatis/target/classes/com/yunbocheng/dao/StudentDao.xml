@@ -8,10 +8,11 @@
     <!--查询操作-->
     <select id="selectStudents" resultType="com.yunbocheng.entity.Student">
         /* 此时会将以下的数值依此赋值给Student对象 */
-        select id,name,email,age from student order by id;
+        select id,name,email,age from student ;
     </select>
 
     <!--插入操作-->
+    <!--这个是插入操作，没有返回值，所以不需要写resultType属性 -->
     <insert id="insertStudent">
         insert into student values (#{id},#{name},#{email},#{age});
     </insert>

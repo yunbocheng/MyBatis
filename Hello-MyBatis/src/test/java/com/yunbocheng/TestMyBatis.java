@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 public class TestMyBatis {
     // 测试方法，测试功能
@@ -30,10 +29,10 @@ public class TestMyBatis {
         String sqlId = "com.yunbocheng.dao.StudentDao.insertStudent";
         // 7.创建一个Student对象
         Student student = new Student();
-        student.setId(9);
-        student.setName("1009");
-        student.setEmail("liwuf@45.com");
-        student.setAge(90);
+        student.setId(1006);
+        student.setName("中国");
+        student.setEmail("891@qq.com");
+        student.setAge(100);
         // 8. 执行sql语句，通过sqlId找到语句
         int nums = sqlSession.insert(sqlId, student);
         // 9.提交事务，MyBatis默认不是自动提交事务的，

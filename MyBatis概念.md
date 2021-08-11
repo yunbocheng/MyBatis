@@ -132,3 +132,58 @@ while (rs.next()) {
     使用mybatis让开发人员集中精神写sql就可以了，不必关心Connection,Statement,ResultSet
     的创建，销毁，sql的执行。 
 
+## 4.入门案例
+
+## 5.MyBatis对象分析
+
+### 5.1 Resources 类
+
+- Resources 类，顾名思义就是资源，<mark>用于读取资源文件。</mark>其有很多方法通过加载并解析资源文件，返 回不同类型的 IO 流对象。
+
+- 简单的说这个类就是读取以上<mark>入门案例</mark>，中的Resources： mybatis中的一个类， 负责读取主配置文件。
+
+  ```java
+  InputStream in = Resources.getResourceAsStream("mybatis.xml");
+  ```
+
+### 5.2 SqlSessionFactoryBuilder 类
+
+- SqlSessionFactory 的 创 建 ， 需 要 使 用 SqlSessionFactoryBuilder 对 象 的 build() 方 法 。 由 于 SqlSessionFactoryBuilder 对象在创建完工厂对象后，就完成了其历史使命，即可被销毁。所以，一般会将 该 SqlSessionFactoryBuilder 对象创建为一个方法内的局部对象，方法结束，对象销毁。
+
+- SqlSessionFactoryBuilder : <mark>创建SqlSessionFactory对象。   </mark>
+
+  ```java
+  SqlSessionFactoryBuilder builder  = new SqlSessionFactoryBuilder();
+  //创建SqlSessionFactory对象
+  SqlSessionFactory factory = builder.build(in);
+  ```
+
+### 5.3 SqlSessionFactory 接口
+
+- SqlSessionFactory 接口对象是一个<mark>重量级对象（系统开销大的对象）</mark>，是线程安全的，所以一个应用 只需要一个该对象即可。创建 SqlSession 需要使用 SqlSessionFactory 接口的openSession()方法。
+
+- SqlSessionFactory 这个接口的实现类是 DefaultSqlSessionFactory。这个实现类中有<mark>openSession()方法，</mark>使用这个接口就是为了使用这个openSession()方法来获取<mark>SqlSession对象</mark>。
+
+- SqlSessionFactory 作用 ： 获取SqlSession对象。
+
+  ```java
+  SqlSession sqlSession = factory.openSession();
+  ```
+
+**openSession()方法的几种形式：**
+
+➢ openSession(true)：创建一个有自动提交功能的 SqlSession 。
+
+➢ openSession(false)：创建一个非自动提交功能的 SqlSession，需手动提交 。
+
+➢ openSession()：无参数，获取的是非自动提交事务的SqlSession对象。
+
+### 5.4  SqlSession 接口
+
+- SqlSession 接口对象用于执行持久化操作。一个 SqlSession 对应着一次数据库会话，一次会话以 SqlSession 对象的创建开始，以 SqlSession 对象的关闭结束。 SqlSession 接口对象是线程不安全的，所以每次数据库会话结束前，需要马上调用其 close()方法，将 其关闭。再次需要会话，再次创建。 SqlSession 在方法内部创建，使用完毕后关闭。
+- SqlSession 接口 :<mark> 定义了操作数据的方法。</mark> 例如 selectOne() ,selectList() ,insert(),update(), delete(), commit(), rollback()。
+-   SqlSession接口的<mark>实现类DefaultSqlSession。</mark>
+
+**使用要求：**
+
+- SqlSession对象<mark>不是线程安全的，</mark>需要在方法内部使用， 在执行sql语句之前，使用openSession()获取SqlSession对象。在执行完sql语句后，需要关闭它，执行SqlSession.close(). 这样能保证他的使用是线程安全的。
