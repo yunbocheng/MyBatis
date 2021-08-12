@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
 
 public class MyBatisUtils {
 
@@ -17,7 +18,7 @@ public class MyBatisUtils {
         // 访问mybatis主配置文件的信息,
         // 这个也是书写的主配置文件在target/classes路径下的路径。
         // 需要和你的项目中的文件名一样
-        String config = "mybatis.xml";
+        String config = "myBatis.xml";
         // 读取这个config表示的文件
         try {
             InputStream in = Resources.getResourceAsStream(config);

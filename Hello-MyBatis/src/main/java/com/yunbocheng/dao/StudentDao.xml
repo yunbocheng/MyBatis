@@ -44,7 +44,7 @@
        <delete> : 表示删除，执行的delete语句
 
    5. 编写sql语句
-         <select id="selectstudents" resultType="com.yunbocheng.entity.Student">
+         <select id="selectstudents" resultType="Student">
         /* 此时会将以下的数值依此赋值给Student对象 */
         select id,name,email,age from student order by id;
         </select>
