@@ -6,4 +6,7 @@
     <select id="testSelect" resultType="com.yunbocheng.entity.Student">
         select id,name,email,age from student order by id;
     </select>
+    <insert id="testInsert">
+        insert into student values (#{id},#{name},#{email},#{age});
+    </insert>
 </mapper>

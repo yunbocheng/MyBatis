@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+        <settings>
+            <setting name="logImpl" value="STDOUT_LOGGING" />
+        </settings>
+    <environments default="mysql">
+        <environment id="mysql">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--数据库的驱动类名-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <!--连接数据库的url字符串-->
+                <property name="url" value="jdbc:mysql://localhost:3306/ssm1?characterEncoding=utf-8"/>
+                <!--访问数据库的用户名-->
+                <property name="username" value="root"/>
+                <!--密码-->
+                <property name="password" value="567cybtfboys"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="com/yunbocheng/dao/StudentDao.xml"/>
+    </mappers>
+</configuration>

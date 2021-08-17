@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="08a00330-33c2-4136-88e2-d483fb432b97" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/../Hello-MyBatis/Hello-MyBatis.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/test/java/com/yunbocheng/TestMyBatis_Proxy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015/entities/entities.dat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015/entities/entities.dat.len" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015/entities/entities.dat.values" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015/entities/entities.dat.values.at" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015/entities/entities.dat.values.s" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015/entities/entities.dat_i" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015/entities/entities.dat_i.len" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015/storage_v2/_src_/schema/mysql.osA4Bg.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/e310e98f-2f3e-41fd-9cb7-826f8af73015/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/yunbocheng/utils/MyBatisUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/yunbocheng/vo/QueryParam.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/myBatis.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/yunbocheng/TestMyBatis.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/yunbocheng/TestMyBatis_Proxy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/yunbocheng/dao/StudentDao.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/myBatis.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.yunbocheng.TestMyBatis.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.yunbocheng.TestMyBatis_Proxy.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/surefire-reports/com.yunbocheng.TestMyBatis.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/surefire-reports/com.yunbocheng.TestMyBatis_Proxy.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/main/java/com/yunbocheng/dao/StudentDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/main/java/com/yunbocheng/dao/StudentDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/main/java/com/yunbocheng/dao/StudentDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/main/java/com/yunbocheng/dao/StudentDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/main/java/com/yunbocheng/dao/impl/StudentDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/main/java/com/yunbocheng/dao/impl/StudentDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/main/java/com/yunbocheng/utils/MyBatisUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/main/java/com/yunbocheng/utils/MyBatisUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/test/java/com/yunbocheng/TestMyBatis.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Hello_MyBatis_Dao/src/test/java/com/yunbocheng/TestMyBatis.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Hello_MyBatis_Dao/target/classes/com/yunbocheng/dao/StudentDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Hello_MyBatis_Dao/target/classes/com/yunbocheng/dao/StudentDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Hello_MyBatis_Dao/target/surefire-reports/TEST-com.yunbocheng.TestMyBatis.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Hello_MyBatis_Dao/target/surefire-reports/TEST-com.yunbocheng.TestMyBatis.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Hello_MyBatis_Dao/target/surefire-reports/com.yunbocheng.TestMyBatis.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Hello_MyBatis_Dao/target/surefire-reports/com.yunbocheng.TestMyBatis.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyBatis概念.md" beforeDir="false" afterPath="$PROJECT_DIR$/../MyBatis概念.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/MyBatis/mybatis.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/MyBatis/mybatis.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="C:\development\Maven\Maven-jar" />
+        <option name="mavenHome" value="C:/development/Maven/apache-maven-3.3.9" />
+        <option name="userSettingsFile" value="C:\development\Maven\apache-maven-3.3.9\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="1.8" />
+    <option name="vmOptions" value="-DarchetypeCatalog=internal  -Dfile.encoding=GB2312" />
+  </component>
+  <component name="ProjectId" id="1whvW6hSezcCrIsUMf1eDKyH0mK" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="flattenPackages" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="模块" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.20735294" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.runner" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\JavaProject\MyBatis\Proxy_MyBatis\src\main" />
+      <recent name="E:\JavaProject\MyBatis\Proxy_MyBatis\src\main\java" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.yunbocheng.utils" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.TestMyBatis_Proxy.testSelectQueryStudents">
+    <configuration name="TestMyBatis_Proxy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Proxy_MyBatis" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.yunbocheng.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.yunbocheng" />
+      <option name="MAIN_CLASS_NAME" value="com.yunbocheng.TestMyBatis_Proxy" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMyBatis_Proxy.testSelectMulitiParam" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Proxy_MyBatis" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.yunbocheng.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.yunbocheng" />
+      <option name="MAIN_CLASS_NAME" value="com.yunbocheng.TestMyBatis_Proxy" />
+      <option name="METHOD_NAME" value="testSelectMulitiParam" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMyBatis_Proxy.testSelectPosition" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Proxy_MyBatis" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.yunbocheng.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.yunbocheng" />
+      <option name="MAIN_CLASS_NAME" value="com.yunbocheng.TestMyBatis_Proxy" />
+      <option name="METHOD_NAME" value="testSelectPosition" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMyBatis_Proxy.testSelectQueryStudents" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Proxy_MyBatis" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.yunbocheng.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.yunbocheng" />
+      <option name="MAIN_CLASS_NAME" value="com.yunbocheng.TestMyBatis_Proxy" />
+      <option name="METHOD_NAME" value="testSelectQueryStudents" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMyBatis.testSelectStudent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Proxy_MyBatis" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.yunbocheng.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.yunbocheng" />
+      <option name="MAIN_CLASS_NAME" value="com.yunbocheng.TestMyBatis" />
+      <option name="METHOD_NAME" value="testSelectStudent" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TestMyBatis_Proxy.testSelectQueryStudents" />
+        <item itemvalue="JUnit.TestMyBatis_Proxy.testSelectPosition" />
+        <item itemvalue="JUnit.TestMyBatis_Proxy" />
+        <item itemvalue="JUnit.TestMyBatis.testSelectStudent" />
+        <item itemvalue="JUnit.TestMyBatis_Proxy.testSelectMulitiParam" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="08a00330-33c2-4136-88e2-d483fb432b97" name="更改" comment="" />
+      <created>1628923664734</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1628923664734</updated>
+      <workItem from="1628923666535" duration="1443000" />
+      <workItem from="1628992849172" duration="16368000" />
+      <workItem from="1629026164744" duration="10048000" />
+      <workItem from="1629084836684" duration="12947000" />
+      <workItem from="1629158484491" duration="331000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Proxy_MyBatis$TestMyBatis_Proxy_testSelectQueryStudents.ic" NAME="TestMyBatis_Proxy.testSelectQueryStudents 覆盖结果" MODIFIED="1629098508853" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.yunbocheng.*</FILTER>
+    </SUITE>
+  </component>
+</project>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+        <settings>
+            <setting name="logImpl" value="STDOUT_LOGGING" />
+        </settings>
+
+    <typeAliases>
+        <!--
+            定义别名的第一种方式
+            可以指定一个类型一个自定义别名
+            type : 自定义类型的全局限定名称
+            alias ：别名 （短小、容易记忆的）
+        -->
+        <!--可以在这里边同时定义多个别名也就是 typeAlias-->
+        <typeAlias type="com.yunbocheng.entity.Student" alias="stu"/>
+
+        <!--
+            定义别名的第二种方式
+            <package> name是包名，这个包中的所有类，类名就是别名(类名不区分大小写)
+        -->
+        <!--<package name="com.yunbocheng.entity"/>-->
+    </typeAliases>
+    <environments default="mysql">
+        <environment id="mysql">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--数据库的驱动类名-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <!--连接数据库的url字符串-->
+                <property name="url" value="jdbc:mysql://localhost:3306/ssm1?characterEncoding=utf-8"/>
+                <!--访问数据库的用户名-->
+                <property name="username" value="root"/>
+                <!--密码-->
+                <property name="password" value="567cybtfboys"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="com/yunbocheng/dao/StudentDao.xml"/>
+    </mappers>
+</configuration>

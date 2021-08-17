@@ -42,7 +42,7 @@
                 <!--数据库的驱动类名-->
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
                 <!--连接数据库的url字符串-->
-                <property name="url" value="jdbc:mysql://localhost:3306/ssm?characterEncoding=utf-8"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/ssm1?characterEncoding=utf-8"/>
                 <!--访问数据库的用户名-->
                 <property name="username" value="root"/>
                 <!--密码-->
@@ -50,7 +50,6 @@
             </dataSource>
         </environment>
     </environments>
-
     <!--
     sql mapper(sql映射文件)的位置，
     这个标签里边有s，说明这个标签中包含多个mapper(映射文件)

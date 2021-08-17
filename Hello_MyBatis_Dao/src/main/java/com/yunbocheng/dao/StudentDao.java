@@ -12,4 +12,10 @@ public interface StudentDao {
      */
     public List<Student> testSelect();
 
+    public  int testInsert(Student student);
+
+    /**
+     * 使用resultMap定义映射关系
+     */
+    List<Student> selectAllStudents();
 }

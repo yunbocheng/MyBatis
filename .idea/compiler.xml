@@ -7,10 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Hello_MyBatis_Dao" />
+        <module name="Hello-MyBatis" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Hello-MyBatis" target="1.8" />
       <module name="Hello_MyBatis_Dao" target="1.8" />
+      <module name="MyBatis -resultType" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

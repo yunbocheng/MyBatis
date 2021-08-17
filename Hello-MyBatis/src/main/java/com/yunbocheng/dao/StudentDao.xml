@@ -16,6 +16,28 @@
     <insert id="insertStudent">
         insert into student values (#{id},#{name},#{email},#{age});
     </insert>
+
+    <!--使用resultMap
+        1. 先定义一个resultMap
+        2. 在select标签中，使用resultMap来调用已定义的resultMap。-->
+    <!--定义resultMap
+        id : 自定义名称，表示定义的这个resultMap
+        type : java类型的全限定名称。相当于以前select的resultType。-->
+    <resultMap id="studentMap" type="com.yunbocheng.entity.Student">
+        <!--数据库中的列名和java属性的关系-->
+        <!--主键列，使用id标签
+            column : 数据库中的列名
+            property : java类型的属性名-->
+        <id column="id" property="id"/>
+        <!--非主键列，使用result标签-->
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="age" property="age"/>
+    </resultMap>
+    <!--此时这个 resultMap的值就是这个id值studentMap-->
+    <select id="selectAllStudents" resultMap="studentMap">
+        select id,name,email,age from student;
+    </select>
 </mapper>
 
 <!--

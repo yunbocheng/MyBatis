@@ -187,3 +187,583 @@ while (rs.next()) {
 **使用要求：**
 
 - SqlSession对象<mark>不是线程安全的，</mark>需要在方法内部使用， 在执行sql语句之前，使用openSession()获取SqlSession对象。在执行完sql语句后，需要关闭它，执行SqlSession.close(). 这样能保证他的使用是线程安全的。
+
+## 6.动态代理
+
+- 动态代理： 使用SqlSession.getMapper(dao接口.class) 获取这个dao接口的对象
+- **注意：在接口中不要使用重载的抽象方法。**
+
+## 7.传入参数
+
+- 传入参数 ：从java代码(也就是测试程序中的代码)中把数据传入到mapper文件的sql语句中。
+
+## 8. 深入理解参数
+
+### 8.1 parameterType 参数
+
+#### 8.1.1 parameterType  介绍
+
+- <mark>parameterType </mark>: 接口中方法参数的类型， 类型的完全限定名或别名。这个属性是可选的，因为 MyBatis 可以推断出具体传入语句的参数，默认值为未设置（unset）。接口中方法的参数从 java 代码传入到 mapper 文件的 sql 语句。
+
+- 什么是parameterType ：写在mapper文件中的 一个属性。 表示dao接口中方法的参数的数据类型。
+
+  ​	例如StudentDao接口 ：public Student  selectStudentById(Integer id) 
+
+- parameterType  :  dao接口中方法参数的数据类型。
+
+  parameterType 它的值是 Java的数据类型<mark>全限定名称</mark>或者是<mark>mybatis定义的别名</mark> (这个别名可以在mybatis官方文档中查询到)。
+
+  > 例如 ：
+  >
+  > parameterType  = "java.lang.Integer"
+  >
+  > parameterType  = "int"
+  >
+  > int 或 java.lang.Integer 
+  >
+  > hashmap 或 java.util.HashMap 
+  >
+  > list 或 java.util.ArrayList student 或 com.yunbocheng.domain.Student
+
+- 注意 ：parameterType 参数<mark>不是强制的 </mark>，mybatis通过反射机制能够发现接口参数的数据类型，可以不存在，一般我们不写。
+
+- select、insert、update、delete 都可以使用parameterType 指定数据类型。
+
+#### 8.1.2 parameterType 使用方式
+
+- 第一步 ：在接口中声明一个带有参数抽象方法。（此时传递的参数是 ：整型的id值）
+
+  ![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815161237.png)
+
+- 第二步 ： 在mapper文件中写出查询数据库的语句。（此时是通过id查询数据）
+
+  ![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815162545.png)
+
+  以上 <mark>parameterType</mark> 使用的是 Java数据类型的<mark>全限定名称</mark>。
+
+  <br/>
+
+  ![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815162626.png)
+
+  以上省略了<mark>parameterType</mark> ，使用的是 parameterType的<mark>默认值</mark>。默认值为未设置（unset）
+
+  <br/>
+
+  ![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815162808.png)
+
+  以上 <mark>parameterType</mark> 使用的是<mark>mybatis定义的别名</mark> 。
+
+- 第三步 :这个是测试类代码，也就是要传递到mapper中的参数代码。(此时传递的id值是1005)
+
+- 声明<mark>@Test</mark>之后代表这是一个测试类，<mark>不需要使用psvm(主函数)</mark>也可以进行运行，如果不写@Test即不声明是一个测试类，此时需要放在主函数中才可以运行。
+
+  ![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815160753.png)
+
+  这个时候mybatis会自动将1005这个值传递给 mapper文件中的<mark>占位符 id=#{id}</mark>。
+
+- 以上三步就完成对特定参数的查询数据。(此时查询的是id=1005的数据)。
+
+### 8.2 传入一个简单参数
+
+- dao 接口中方法的参数只有一个简单类型（java 基本类型和 String），占位符 #{ 任意字符 }，和方 法的参数名无关。
+
+- **传递一个简单的参数使用 占位符 #{}**
+
+- 一个简单类型的参数：mybatis把java的<mark>基本数据类型(包括包装类)</mark>和<mark>String</mark>都叫简单类型。
+
+  比如 ：下边的这个就叫一个简单的参数。
+
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815161237.png)
+
+- 在mapper文件中获取简单类型的一个参数的值，使用占位符 ：<mark>#{任意字符}</mark>。
+
+  以下两段代码代表的含义是一样的。<mark><mark>#{任意字符}</mark>
+
+  ![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815162808.png)
+
+  ![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815164808.png)
+
+- 查询<mark>id=1005</mark>，的student。mybatis会自动将这个1005传递给<mark>占位符id</mark>。
+
+  ![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815160753.png)
+
+- MyBatis传递参数 ：**从 java 代码中把参数传递到 mapper.xml 文件。**
+
+### 8.3 MyBatis是封装的JDBC操作
+
+- 使用<mark>占位符 ：#{}</mark>之后，mybatis执行sql是使用的jdbc中的<mark>PreparedStatement</mark>对象。
+
+- 由mybatis执行下面的代码：（mybatis中的占位符 ：<mark>#{}</mark>相当于jdbc中的<mark> ？</mark>）
+
+- 注意 ：一个 <mark>#{}</mark>对应一个<mark>?</mark>。
+
+  1. mybatis**创建Connection , PreparedStatement 对象**
+
+     ```java
+     // 以下这些代码都是在mapper文件中的操作，是MyBatis帮我们操作的。
+     String sql = "select id,name,email,age from student where id= ?";
+     PreparedStatement pst = conn.PreparedStatement(sql);
+     pst.setInt(1,1001);
+     ```
+
+  2. 执行sql封装为 **resultType = "com.yunbocheng.domain.Student"** 这个对象。
+
+     ```Java
+     ResultSet rs = ps.executeQuery();
+     Student student = null;
+     while(rs.next()){
+         // 从数据库取出id=1001的这一行数据，存储到一个java对象属性中。
+         // 注意 ：在Student类中必须有每个属性的set/get，以及创建对象时的无参构造。
+         student = new Student();
+         student.setId(rs.getInt("id"));
+         student.setName(rs.getString("name"));
+         student.setEmail(rs.getString("email"));
+         student.setAge(rs.getInt("age"));
+         // 也可以将这些数据写在一个student类的有参构造的方法中。
+         // 此时查询的是id=1001这个对象，而不是一多个student，此时不用放在一个集合中。
+     }
+     return student;  
+     // 把mapper文件中查询到的这个student赋给了dao方法调用的返回值。也就是以下这段代码
+     // 以下这段代码是测试类代码
+     Student student = dao.selectStudentById(1001);
+     System.out.println("student = " + student);
+     ```
+
+### 8.2 传入多个参数
+
+#### 8.2.1 [必须掌握] 多个参数-使用@Param命名参数。
+
+- 当 Dao 接口方法多个参数，需要通过名称使用参数。在方法形参前面加入<mark>@Param(“自定义参数名”)</mark>， mapper 文件使用<mark>#{自定义参数名}。</mark>
+
+- **重点 ：这里必须保证mapper 文件使用<mark>#{自定义参数名}。</mark>中的自定义参数名与 <mark>@Param(“自定义参数名”)</mark>中的自定义参数名一致。**
+
+- 定义格式：
+
+  ```java
+  // 在接口中，使用 @Param(“自定义参数名”) 形式
+  public List<Student> selectMulitParam(@Param("myname") String name , 											  @Param("myage") Integer age);
+  ```
+
+  ```xml
+  <!--mapper文件中，使用#{自定义参数名}形式。-->
+  <select>
+  	select * from student where name = #{myname} or age = {myage}
+  </select>
+  ```
+
+- 使用@Param命名参数传递多个参数
+
+  第一步 ：创建包含多个参数的接口
+
+  <img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815175421.png"  />
+
+  第二步 ： 创建传递多个参数的查询语句。
+
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815200206.png)
+
+**注意 ：必须保证接口中的自定义参数名 与 mapper文件中的自定义参数名一致**
+
+​	第三步 :  使用测试类传递参数，将参数传递给 mapper文件返回最后的结果。
+
+​	<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815200904.png" style="zoom:80%;" />
+
+​	**以上查询的是 ： <mark>名字是程云博</mark>以及<mark>年龄是50</mark>的student数据。**
+
+#### 8.2.2 [用的最多] 多个参数-使用对象传递参数。
+
+- 使用 java 对象传递参数， java 的属性值就是 sql 需要的参数值。 每一个属性就是一个参数。
+
+- 语法格式 ：
+
+  ```java
+   #{ property,javaType=java 中数据类型名,jdbcType=数据类型名称 }
+  // javaType, jdbcType 的类型 MyBatis 可以检测出来，一般不需要设置。
+  // 常用格式 
+  #{ property }
+  ```
+
+  第一步 ：先创建一个Java类，使用这个Java类的对象中的属性值来传递参数信息。
+
+  <img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815214341.png" style="zoom:80%;" />
+
+  **注意 ：在这个类中要声明属性值，以及无参构造，以及set/get方法。**
+
+  第二步 ： 在dao接口中创建一个参数为以上QueryParma类的对象的抽象方法。
+
+  <img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815214551.png" style="zoom:80%;" />
+
+  **注意 ：这个返回值是一个Student对象集合，而不是QueryParma对象集合。**
+
+  **注意 ：这个并不一定非要创建出另外一个类，使用现有的Student类完全没问题。只不过是其中的属性值的数量不同**
+
+  第三步 ： 在mapper文件中，创建使用该抽象方法查询数据库的SQL语句。
+
+  <img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815215108.png" style="zoom: 67%;" />
+
+  javaType对应的就是 ：这个数据类型的 全限定名称 java.lang.String。
+
+  jdbcType对应的就是 ：由mybatis提供的（见下表）
+
+  ![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815203602.png)
+
+  **注意 ：这个语句有原始语句与简写语句之分。**
+
+  **原始语句 ：**
+
+  <img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815215242.png" style="zoom: 67%;" />
+
+  **简化语句 ：**
+
+  <img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815215320.png" style="zoom: 67%;" />
+
+  **注意 ：mapper文件中的<mark>定位符#{自定义名称}</mark>，必须和QueryParma（传递参数的类）类中属性值的名称一致**
+
+  第四步 ：使用测试类来创建传递参数的QueryParma对象，输出查询结果
+
+  <img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210815222033.png" style="zoom:80%;" />
+
+  **以上查询出的是名称为程云博和年龄为50的数据。** 
+
+#### 8.2.3 [了解] 多个参数-按位置
+
+- 参数位置从 0 开始， <mark>引用参数语法 #{ arg 位置 }</mark> ， 第一个<mark>参数是#{arg0}</mark>, 第二个是<mark>#{arg1}</mark>
+-  **注意：mybatis-3.3 版本和之前的版本使用#{0},#{1}方式， 从 mybatis3.4 开始使用#{arg0}方式。也就是现在使用的是 #{arg0}的语法格式。**
+- **其中 agr是关键字，是固定的，不可以改变，只能改变这个位置信息。**
+
+第一步：在接口中创建抽象方法
+
+**注意 ：抽象方法中的参数从左到右进行编号，比如下边的这个参数，<mark>name位置是0</mark>，<mark>age是1。</mark>**
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/image-20210816144419599.png" alt="image-20210816144419599" style="zoom:80%;" />
+
+第二步 ：在mapper文件中创建SQL语句
+
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210816144319.png)
+
+**注意 ：在<mark>mybatis3.4</mark>之后开始使用 <mark>#{arg0}</mark>的语法格式，我们这里使用的是3.5.7版本。** 
+
+**注意 ：<mark>#{arg0}</mark>对应的是name，如果将name对应的<mark>#{arg0}</mark>改为<mark>#{arg1}</mark>，此时会将age的值传递给name，此时会赋值反。结果会变为 name = 20 age = 程云博。**
+
+第三步 ：在测试类中显示查询结果
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210816145005.png" style="zoom:80%;" />
+
+此时查询到的就是name是程云博或者年龄是20岁的信息。
+
+#### 8.2.24[了解] 多个参数-使用Map
+
+- Map 集合可以存储多个值，使用Map向 mapper 文件一次传入多个参数。
+- Map 集合使用 <mark>String的 key</mark> ，<mark>Object 类型的值存储参数</mark>。
+- **mapper 文件使用 <mark># { key } 引用参数值。</mark>**
+
+第一步 ：在接口中创建抽象方法，使用的是Map集合，返回值是Student对象集合。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210816154913.png" style="zoom:80%;" />
+
+第二步 ：在mapper文件中创建SQL语句 <mark>语法格式 ：#{map的key值}</mark>
+
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210816155008.png)
+
+**注意 ：这个key值必须和测试类中创建的Map中的key值一致。**
+
+第三步 ：在测试类中显示查询结果
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210816155202.png" style="zoom:80%;" />
+
+**注意  :  在我们日常的开发中，不建议参数是Map集合，因为什么信息也表达不出来，可读性差，不建议使用。**
+
+- **以上四种传递多个参数的方式，我们<mark>掌握前两个</mark>即可，后两个作为了解。**
+
+## 9. 两个占位符比较 （\#和$的区别）
+
+- #与$所实现的效果是一样的，只是内部执行的方式不一样。
+
+### 9.1 #占位符
+
+- <mark>#：占位符</mark>，**告诉 mybatis 使用实际的参数值代替。**并使用 **PrepareStatement 对象**执行 sql 语句,
+
+- <mark>#{…}代替 sql 语句的“?”</mark>。这样做更安全，更迅速，通常也是首选做法。
+
+- ```xml
+  <!--maper 文件，使用的是 #占位符-->
+  <select id="selectById" resultType="com.yunbocheng.entity.Student">
+   select id,name,email,age from student where id=#{studentId}
+  </select>
+  ```
+
+- ```xml
+  <!--转为 MyBatis 的执行是：-->
+  String sql=” select id,name,email,age from student where id=?”;
+  PreparedStatement ps = conn.prepareStatement(sql);
+  ps.setInt(1,1005);
+  ```
+
+- ```xml
+  <!--解释：-->
+  where id=? 就是 where id=#{studentId}
+  <!--此时#{studentId}会替换掉?-->
+  ps.setInt(1,1005) , 1005 会替换掉 #{studentId}
+  ```
+
+### 9.2 $ 字符串替换
+
+- <mark>$ 字符串替换</mark>，告诉 mybatis 使用<mark>$包含的“字符串”替换所在位置</mark>。
+
+- 使用 <mark>Statement对象把 sql 语句和${}中的内容连接起来</mark>。
+
+- $:可以替换表名或者列名， 你能确定数据是安全的。可以使用$
+
+- **注意 ：使用$符号的时候是完成字符串的拼接，此时必须满足SQL语句的格式。**
+
+  ![image-20210816163831535](https://gitee.com/YunboCheng/imageBad/raw/master/image/image-20210816163831535.png)
+
+  此时需要使用<mark>" '李四' "</mark>这种格式，才能保证拼接完的字符是以下格式(正确的SQL格式)
+
+  ![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210816164016.png)
+
+**将两个语句放在一起比较**
+
+```
+<!--使用 #占位符的结果-->
+<!--这个原理是 ：将#{studentId}代表的值替换掉SQL语句中的 ? 占位符-->
+<!--替换-->
+select id,name, email,age from student where id=#{studentId}
+ 	# 的结果： select id,name, email,age from student where id=? 
+
+<!--使用 $字符串拼接的结果-->
+<!--这个原理是 ：将${studentId}代表的值拼接到SQL语句最后的 id = 的后边-->
+<!--拼接-->
+select id,name, email,age from student where id=${studentId}
+	$ 的结果：select id,name, email,age from student where id=1001
+```
+
+### 9.3 # 与 的区别（面试题）
+
+- #使用 ？在sql语句中做站位的， 使用PreparedStatement执行sql，效率高
+- #能够避免sql注入，更安全。
+- $不使用占位符，是字符串连接方式，使用Statement对象执行sql，效率低
+- $有sql注入的风险，缺乏安全性。
+- $:可以替换表名或者列名
+
+## 10.封装MyBatis输出结果
+
+- MyBatis执行完sql，怎么将sql语句的执行结果变成一个java对象。
+
+### 10.1 定义自定义类型的别名（比如对象）
+
+1. 在<mark>mybatis主配置文件</mark>中定义，使<typeAlias>定义别名
+
+2. 可以在<mark >resultType中使用自定义别名。
+
+   ```xml
+   <typeAliases>
+   	<!--
+   		定义别名的第一种方式
+   		可以指定一个类型一个自定义别名
+   		type : 自定义类型的全局限定名称
+   		alias ：别名 （短小、容易记忆的）
+   	-->
+   	<!--可以在这里边同时定义多个别名也就是 typeAlias-->
+   	<typeAlias type="com.yunbocheng.entity.Student" alias="stu"/>
+   
+   	<!--
+   		定义别名的第二种方式
+   		<package> name是包名，这个包中的所有类，类名就是别名(类名不区分大小写)
+   	-->
+   	<package name="com.yunbocheng.entity"/>
+   </typeAliases>
+   ```
+
+- **不建议使用别名，建议使用全限定名称**。全限定名称更安全。因为如果使用通过<mark>定义包名的方式定义别名</mark>，可能在两个包中都存在Student类，此时返回值使用Student，那不此时不能确定是哪个包中的Student别名。使用的时候会报错，发生奇异。不能确定的到底是使用的哪个包中的Student别名。
+
+### 10.2 resultType
+
+- <mark>resultType</mark> : (结果类型)执行 sql 得到 ResultSet 转换的类型，使用类型的<mark>完全限定名</mark>或<mark>别名。</mark> 
+- <mark>别名是 mybatis 给出的</mark>，比如 ：**全限定名称 java.lang.Interger对应的别名是 INTEGER。**
+- 如果<mark>resultType返回值是一个对象，</mark>比如返回值是一个Student对象，此时的resultType返回值可以使用全限定名称。**com.yunbocheng.entity.Student。**也可以使用别名。别名定义方式在上边。
+- 注意如果返回的是<mark>集合</mark>，那应该设置为集合包含的类型，而不是集合本身。
+- **resultType 和 resultMap，不能同时使用。**
+
+- resultType结果类型， 指sql语句执行完毕后， 数据转为的java对象， java类型是任意的。
+
+**resultType处理方式：**
+
+1. mybatis执行sql语句， 然后mybatis调用类的无参数构造方法，创建对象。
+2. mybatis把ResultSet指定列值付给同名的属性。
+
+```xml
+<!--mapper文件中的语句，Mybatis动态代理-->
+<select id="selectMultiPosition" resultType="com.bjpowernode.domain.Student">
+  select id,name, email,age from student
+</select>
+
+<!--以上MyBatis动态代理对等的jdbc代码-->
+ResultSet rs = executeQuery(" select id,name, email,age from student" )
+while(rs.next()){
+	Student student = new Student();
+    student.setId(rs.getInt("id"));
+    student.setName(rs.getString("name"));
+    student.setEmail(rs.getString("email"));
+    student.setAge(rs.getInt("age"));
+}
+```
+
+#### 10.2.1 resultType返回一个简单类型
+
+第一步 ：定义接口中的方法
+
+```java
+int countStudent();
+```
+
+第二步 ：mapper 文件：
+
+**注意：返回值类型可以是全限定名称也可以是别名。**
+
+```xml
+<!--此时 resultType 的返回值是一个int类型，代表查询到的结果数-->
+<select id="countStudent" resultType="int">
+ select count(*) from student
+</select>
+```
+
+第三步 ：测试方法
+
+```java
+@Test
+public void testRetunInt(){
+ int count = studentDao.countStudent();
+ System.out.println("学生总人数："+ count);
+}
+```
+
+#### 10.2.2 resultType返回一个对象类型(推荐使用)	
+
+第一步 ：接口中的抽象方法
+
+```java
+Student selectById(int id);
+```
+
+第二步 ：mapper文件
+
+```xml
+<!--此时返回的结果是一个Student对象-->
+<select id="selectById" resultType="com.bjpowernode.domain.Student">
+	 select id,name,email,age from student where id=#{studentId}
+</select>
+```
+
+这个是时候会使用框架处理 ：使用构造方法创建对象。调用 setXXX 给属性赋值。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210816202536.png" style="zoom:80%;" />
+
+- **注意：Dao 接口方法返回是<mark>集合类型</mark>，需要<mark>指定集合中的类型，不是集合本身。</mark>**
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210816202809.png" style="zoom:80%;" />
+
+- 这个java对象可以是任意的，此时就将这个查询结果赋给一个ViewStudendnt对象。
+
+![image-20210816200008750](https://gitee.com/YunboCheng/imageBad/raw/master/image/image-20210816200008750.png)
+
+第三步 ：测试程序
+
+```java
+@Test
+public void testSelectStudent(){
+StudentDao studentDao = new StudentDaoImpl();
+List<Student> students = studentDao.testSelect();
+	for (Student student : students) {
+    	System.out.println(student);
+    }
+}
+```
+
+#### 10.2.3 resultType返回一个Map类型	
+
+- **sql 的查询结果作为 Map 的 <mark>key 和 value</mark>。推荐使用 <mark>Map<Object,Object></mark>。**
+- **注意：Map 作为<mark>接口返回值</mark>，sql 语句的查询结果<mark>最多只能有一条</mark>记录。大于一条记录是错误。**
+
+第一步 ：接口定义抽象方法返回Map
+
+```Java
+Map<Object,Object> selectReturnMap(int id);
+```
+
+第二步 ：mapper文件 (返回值map的全限定名称是 java.util.HashMap或者是别名map)
+
+```xml
+<!--此时返回值是一个Map集合，且这个集合中只能有一条记录。推荐使用Map<Object,Object>-->
+<select id="selectReturnMap" resultType="java.util.HashMap">
+ 	select id,name from student where id = #{studentId}
+</select>
+```
+
+第三步 ：测试方法(返回的结果是：列名是map的key，列值是map的value)。
+
+```Java
+@Test
+public void testReturnMap(){
+ 	Map<Object,Object> retMap = studentDao.selectReturnMap(1002);
+ 	System.out.println("查询结果是 Map:"+retMap);
+}
+```
+
+**注意 ：上边SQL语句获取的是id,name的字段值。所以传递到Map集合中的是<id,name>。** 
+
+**返回的结果是 ：<mark>查询的结果是 Map : {name=李四, id=1001}</mark>。**查询的结果是:<mark>{列名=列值，列名=列值}的格式</mark>。
+
+以上查询到的是两个key，如果是多个key，其map就是多增加列名和列值。
+
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210817081842.png)
+
+ **注意 ：使用map只能返回一行数据，返回大一一行的数据会报错，是错误的。**
+
+### 10.3 resultMap
+
+- resultMap : <mark>结果映射</mark>， 指定<mark>数据库中数据的列名</mark>和<mark>java对象的属性</mark>对应关系。
+
+- resultMap的作用 ：
+  1. 你自定义列值赋值给哪个属性。
+  2. 当你的列名和属性名不一样时，一定使用resultMap。
+
+第一步 ：创建一个接口的抽象方法
+
+```java
+/**
+* 使用resultMap定义映射关系
+*/
+List<Student> selectAllStudents();
+```
+
+第二步 ：mapper文件
+
+```xml
+<!--使用resultMap
+    1. 先定义一个resultMap
+    2. 在select标签中，使用resultMap来调用已定义的resultMap。
+-->
+<!--定义resultMap
+    id : 自定义名称，表示定义的这个resultMap
+    type : java类型的全限定名称。相当于以前select的resultType。
+-->
+<resultMap id="studentMap" type="com.yunbocheng.entity.Student">
+    <!--数据库中的列名和java属性的关系-->
+    <!--主键列，使用id标签
+        column : 数据库中的列名
+        property : java类型的属性名
+	-->
+    <id column="id" property="id"/>
+    <!--非主键列，使用result标签-->
+    <result column="name" property="name"/>
+    <result column="email" property="email"/>
+    <result column="age" property="age"/>
+</resultMap>
+<!--此时这个 resultMap的值就是这个id值studentMap-->
+<select id="selectAllStudents" resultMap="studentMap">
+    select id,name,email,age from student;
+</select>
+```
+
+第三步 ：测试类
+

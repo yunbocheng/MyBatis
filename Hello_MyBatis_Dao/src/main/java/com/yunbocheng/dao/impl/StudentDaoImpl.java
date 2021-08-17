@@ -7,6 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
+/**
+ * 这个类是实现接口中的方法，在测试类中创建这个类使用这个类中的方法。
+ */
 public class StudentDaoImpl implements StudentDao {
     @Override
     public List<Student> testSelect() {
@@ -19,4 +22,25 @@ public class StudentDaoImpl implements StudentDao {
         sqlSession.close();
         return list;
     }
+
+    @Override
+    public int testInsert(Student student) {
+        // 获取SqlSession对象，使用工具包
+        SqlSession sqlSession = MyBatisUtils.getSqlSession();
+        String sqlId = "com.yunbocheng.dao.StudentDao.testInsert";
+        // 执行sql语句，插入数据
+        int insert = sqlSession.insert(sqlId,student);
+        // 提交事务
+        sqlSession.commit();
+        // 关闭sqlSession对象
+        sqlSession.close();
+        return insert;
+    }
+
+    @Override
+    public List<Student> selectAllStudents() {
+        return null;
+    }
+
+
 }
