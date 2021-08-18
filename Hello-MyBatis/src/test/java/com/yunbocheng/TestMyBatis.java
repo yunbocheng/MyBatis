@@ -1,6 +1,8 @@
 package com.yunbocheng;
 
+import com.yunbocheng.dao.StudentDao;
 import com.yunbocheng.entity.Student;
+import com.yunbocheng.utils.MyBatisUtils1;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,6 +11,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class TestMyBatis {
     // 测试方法，测试功能
@@ -47,5 +50,31 @@ public class TestMyBatis {
          *  Student{id=1, name='1001', email='zhangsan@13.com', age=20}
          *  Student{id=2, name='1002', email='lisi@12.com', age=28}
          * */
+    }
+
+    @Test
+    public void selectSelectLikeOne(){
+        SqlSession sqlSession = MyBatisUtils1.getSqlSession();
+        StudentDao dao = sqlSession.getMapper(StudentDao.class);
+
+        // 准备好like的内容，使用dao接口的实现类对象调用方法
+        String name = "%程%";
+        List<Student> students = dao.selectLikeOne(name);
+        for (Student student : students) {
+            System.out.println("查询到的学生 ：" + student);
+        }
+    }
+
+    @Test
+    public void selectSelectLikeTwo(){
+        SqlSession sqlSession = MyBatisUtils1.getSqlSession();
+        StudentDao dao = sqlSession.getMapper(StudentDao.class);
+
+        // 准备好like的内容，使用dao接口的实现类对象调用方法
+        String name = "程";
+        List<Student> students = dao.selectLikeOne(name);
+        for (Student student : students) {
+            System.out.println("查询到的学生 ：" + student);
+        }
     }
 }

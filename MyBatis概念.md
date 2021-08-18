@@ -193,6 +193,61 @@ while (rs.next()) {
 - 动态代理： 使用SqlSession.getMapper(dao接口.class) 获取这个dao接口的对象
 - **注意：在接口中不要使用重载的抽象方法。**
 
+### 6.1 标准的mybatis配置主文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace : 里边填写接口路径，这个类在项目中是唯一的，可以保证namespace值唯一-->
+<mapper namespace="com.yunbocheng.dao.StudentDao">
+<!--
+    mybatis的配置文件：注意，一般是一个表文件一个这种配置文件。
+    这个sql映射文件是写 sql语句的，mybatis会执行这些sql。
+    对于这个sql映射文件的解释：
+    1.指定约束文件
+        <!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+        mybatis-3-mapper.dtd : 是约束文件的名称，扩展名是dtd的。
+    2. 约束文件的作用
+        限制、检查在当前文件中出现的标签，属性必须符合mybatis的要求。
+
+    3.mapper（sql mapper 这个mapper就是映射的意思）：是当前文件的根标签。必须的，不可以改变。
+        namespace ：叫做命名空间，这个空间是一个唯一值。可以是自定义的字符串
+                    要求使用dao接口的【全限定名称】。定位的这个接口，而不是这个xml配置文件
+                    【全限定名称】 = 包名 + 接口名(类名)
+        <mapper namespace="com.yunbocheng.dao.StudentDao">
+
+    4. 在当前文件中，可以使用特定的标签，表示数据库的特定操作。
+       <select> : 表示执行查询，执行的是select语句。
+       <update> : 表示更新数据库的操作，就是在<update>标签中写的是update sql语句
+       <insert> : 表示插入，放的是insert语句
+       <delete> : 表示删除，执行的delete语句
+
+   5. 编写sql语句
+         <select id="selectstudents" resultType="Student">
+        /* 此时会将以下的数值依此赋值给Student对象 */
+        select id,name,email,age from student order by id;
+        </select>
+        id : 代表执行的sql语句的唯一标识，mybatis会使用这个id的值来找到要
+             执行的sql语句。这个id值可以自定义。但是要求使用接口中的方法名称。
+             就相当于使用这个id值来代表这条sql语句。
+        resultType : 代表结果的类型，是sql语句执行后得到的ResultSet，
+                     遍历这个ResultSet得到Java对象的类型。
+                     这个值写类型的全限定名称。
+                    也就是把查询到的数据传递给com.yunbocheng.entity.Student类
+                    此时MyBatis会自动创建出的一个student对象。并给属性赋值。
+                    MyBatis会把从数据库中的id值赋给Student类中id的属性。
+                    MyBatis会把从数据库中的name值赋给Student类中name的属性。
+                    MyBatis会把从数据库中的email值赋给Student类中email的属性。
+                    MyBatis会把从数据库中的age值赋给Student类中age的属性。
+                    返回的这个类型和接口中方法的返回类型一致，都是一个student对象的集合。
+     以上就是一个标准的 mybatis配置文件。
+```
+
 ## 7.传入参数
 
 - 传入参数 ：从java代码(也就是测试程序中的代码)中把数据传入到mapper文件的sql语句中。
@@ -726,6 +781,7 @@ public void testReturnMap(){
 - resultMap的作用 ：
   1. 你自定义列值赋值给哪个属性。
   2. 当你的列名和属性名不一样时，一定使用resultMap。
+- 这个返回值类型主要解决列名和属性名不一样的问题。
 
 第一步 ：创建一个接口的抽象方法
 
@@ -765,5 +821,515 @@ List<Student> selectAllStudents();
 </select>
 ```
 
-第三步 ：测试类
+第三步 ：测试类 (返回值是一个List<Student>集合)
+
+```java
+@Test
+public void testSelectAllStudents(){
+    // 使用工具类获取到SqlSession对象
+    SqlSession sqlSession = MyBatisUtils.getSqlSession();
+    // 使用mybatis动态代理模式获取到dao的实现类对象
+    StudentDao dao = sqlSession.getMapper(StudentDao.class);
+    // 使用dao的是实现类对象来调用其中的抽象方法。
+    List<Student> students = dao.selectAllStudents();
+    for (Student student : students) {
+        System.out.println(student);
+    }
+}
+```
+
+**注意 ：resultMap和resultType不要一起用，二选一。**
+
+## 11.解决实体类属性名与列名不同的处理方式
+
+### 11.1 使用列别名和 resultType（第一种方式）
+
+**使用方式**
+
+- 第一步 ：创建新的实体类
+
+```java
+package com.yunbocheng.entity;
+public class PrimaryStudent {
+ private Integer stuId;
+ private String stuName;
+ private Integer stuAge;
+ // 省略了 set , get 以及toString方法
+```
+
+- 第二步 ：接口方法 (返回一个不是Student对象的LIst集合)
+
+```java
+List<PrimaryStudent> selectUseFieldAlias(QueryParam param);
+```
+
+- 第三步 ：mapper文件
+
+```xml
+<select id="selectUseFieldAlias" 
+resultType="com.yunbocheng.entity.PrimaryStudent">
+ 	select id as stuId, name as stuName,age as stuAge
+ 	from student where name=#{queryName} or age=#{queryAge}
+</select>
+```
+
+- 测试方法
+
+```java
+@Test
+public void testSelectUseFieldAlias(){
+ QueryParam param = new QueryParam();
+ param.setQueryName("程云博");
+ param.setQueryAge(20);
+ List<PrimaryStudent> stuList;
+ stuList = studentDao.selectUseFieldAlias(param);
+ stuList.forEach( stu -> System.out.println(stu));
+}
+```
+
+### 11.2 使用 resultMap
+
+**使用方式**
+
+- 接口方法
+
+```java
+List<PrimaryStudent> selectUseDiffResultMap(QueryParam param);
+```
+
+- mapper文件 (使用定义别名的方式)
+
+```xml
+<!-- 创建 resultMap
+ id:自定义的唯一名称，在<select>使用
+ type:期望转为的 java 对象的全限定名称或别名 
+-->
+<resultMap id="primaryStudentMap" 
+type="com.yunbocheng.entity.PrimaryStudent">
+ <!-- 主键字段使用 id -->
+ <id column="id" property="stuId" />
+ <!--非主键字段使用 result-->
+ <result column="name" property="stuName"/>
+ <result column="age" property="stuAge" />
+</resultMap>
+<!--resultMap: resultMap 标签中的 id 属性值-->
+<select id="selectUseDiffResultMap" resultMap="primaryStudentMap">
+ select id,name,email,age from student
+ where name=#{queryName} or age=#{queryAge}
+</select>
+```
+
+- 测试方法
+
+```java
+@Test
+public void testSelectUseDiffResultMap(){
+ QueryParam param = new QueryParam();
+ param.setQueryName("程云博");
+ param.setQueryAge(20);
+ List<PrimaryStudent> stuList;
+ stuList = studentDao.selectUseDiffResultMap(param);
+ stuList.forEach( stu -> System.out.println(stu));
+}
+```
+
+## 12. 模糊查询like
+
+### 12.1 模糊查询的第一种方式 （推荐使用）
+
+- **第一种方式 ：在Java代码指定 like 的内容。**
+
+**实现方式**
+
+- 第一步 ：接口中创建方法 （返回值是一个Student对象的List集合）传递的参数是模糊的名字
+
+```java
+/**
+* 第一种模糊查询
+* 在Java代码指定 like 的内容。
+*/
+public List<Student> selectLikeOne(String name);
+```
+
+- 第二步 ：mapper文件中创建SQL查询语句 （这里使用 #{} 占位符格式）
+
+```xml
+<!--第一种like,java代码指定 like内容-->
+<select id="selectLikeOne" resultType="com.yunbocheng.entity.Student">
+    select id,name,email,age from student where name like #{name};
+</select>
+```
+
+- 第三步 ：测试方法，使用模糊查询查询结果，此时使用的是模糊查询语句 <mark>"%程%"</mark>，%代表前边有任意个字符，即使没有字符也可以的，只要名字里边有<mark>程</mark>这个字符即可查询出来。
+
+```java
+@Test
+public void selectSelectLikeOne(){
+    SqlSession sqlSession = MyBatisUtils.getSqlSession();
+    StudentDao dao = sqlSession.getMapper(StudentDao.class);
+    // 准备好like的内容，使用dao接口的实现类对象调用方法
+    String name = "%程%";
+    List<Student> students = dao.selectLikeOne(name);
+    for (Student student : students) {
+        System.out.println("查询到的学生 ：" + student);
+    }
+}
+```
+
+**查询到的结果 ：**
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210817215010.png" style="zoom:80%;" />
+
+### 12.2 模糊查询的第一种方式 
+
+- **在mapper文件中拼接 like 的内容**
+
+**实现方式**
+
+- 接口方法
+
+```java
+/**
+ * 第二种模糊like查询的方法
+ * name就是 程 这个值，在mapper文件中拼接 like %程% 
+ */
+List<Student> selectLikeTwo(String name);
+```
+
+- mapper文件
+
+```xml
+<!--第二种方式 ：在mapper文件中拼接like内容 %程%-->
+<!--如果要求查询的第一个字符是程，那么就不写第一个 "%"-->
+<!--注意 ：这个"%"与#{name}之间的空格必须存在-->
+<!--这个name为查询的值，比如 程，这样拼接之后就是 %程%-->
+<select id="selectLikeOne" resultType="com.yunbocheng.entity.Student">
+    select id,name,email,age from student where name like "%" #{name} "%";
+</select>
+```
+
+- 测试方法
+
+```java
+@Test
+public void selectSelectLikeTwo(){
+    SqlSession sqlSession = MyBatisUtils1.getSqlSession();
+    StudentDao dao = sqlSession.getMapper(StudentDao.class);
+    // 准备好like的内容，使用dao接口的实现类对象调用方法
+    String name = "李";
+    List<Student> students = dao.selectLikeOne(name);
+    for (Student student : students) {
+        System.out.println("查询到的学生 ：" + student);
+    }
+}
+```
+
+- 测试结果
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/image-20210817220512104.png" alt="image-20210817220512104"  />
+
+ 
+
+## 13.动态sql概念
+
+- <mark>动态sql</mark> : sql的内容是变化的，可以根据条件获取到不同的sql语句。
+- **主要是where部分发生变化。**
+- 动态sql的实现，使用的是<mark>mybatis提供的标签</mark>:
+  - **if 标签**
+  - **where 标签**
+  - **foreach 标签**
+
+- 动态 SQL，通过 MyBatis 提供的各种标签对条件作出判断以实现动态拼接 SQL 语句。这里的条件判 断使用的表达式为 OGNL 表达式。常用的动态 SQL 标签有、、、等。 MyBatis 的动态 SQL 语句，与 JSTL 中的语句非常相似。 动态 SQL，主要用于解决查询条件不确定的情况：在程序运行期间，根据用户提交的查询条件进行 查询。提交的查询条件不同，执行的 SQL 语句不同。若将每种可能的情况均逐一列出，对所有条件进行 排列组合，将会出现大量的 SQL 语句。此时，可使用动态 SQL 来解决这样的问题
+- 在 mapper 的动态 SQL 中若出现大于号（>）、小于号（<）、大于等于号（>=），小于等于号（<=）等 符号，最好将其转换为实体符号。否则，XML 可能会出现解析出错问题。
+- **特别是对于小于号（<），在 XML 中是绝不能出现的。否则解析 mapper 文件会出错。**
+
+### 13.1 if 标签
+
+- **if 是判断条件的。**
+- **if中存在一个问题，就是可能发生SQL语句拼接错误。Where标签会解决这个问题。**
+- **语法格式：**
+
+```xml
+<if test="判断java对象的属性值">
+	部分sql语句
+</if>
+```
+
+**对于该标签的执行，当 test 的值为 true 时，会将其包含的 SQL 片断拼接到其所在的 SQL 语句中。 语法： sql 语句的部分** 
+
+**实现方式**
+
+- 第一步 ：创建接口中的抽象方法（<mark>注意 : sql动态代理动态sql要使用java对象作为参数</mark>）
+
+```java
+/*
+    测试动态sql中的 if 标签
+    动态sql要使用java对象作为参数
+*/
+List<Student> selectStudentIf(Student student);
+```
+
+- 第二步 ：在mapper文件中使用动态sql语句。
+
+- 下边代码中存在一个小技巧<mark>id > 0</mark>，这个代码的作用是为了：使当输入的name不满足条件时可以拼接出正确SQL语句。**因为表中的所有id都是大于0的 ，不影响查询结果。** **这个小技巧不一定非得是id>0，只要是true的表达式即可。比如：<mark>1=1</mark> 都可以的。**
+
+- 当name不满足条件时，不使用<mark>id>0</mark>，拼接的字符串是 ：
+
+  ```xml
+  select id,name,email,age from student where and age > ?; //不符合SQL语句格式,会报错。
+  ```
+
+- 当name不满足条件时，使用<mark>id>0</mark>，拼接的字符串是 ：
+
+  ```xml
+  select id,name,email,age from student where id>0 and age > ?; 
+  //因为表中的所有id都是大于0的 ，不影响查询结果，此时符合SQL语句格式。
+  ```
+
+```xml
+<!--if标签
+    <if : test="使用接口中参数Java对象的属性值作为i判断条件">
+    语法格式 ：属性=xxx值 （当然也可以是 属性!=xxx值）
+-->
+<select id="selectStudentIf" resultType="com.yunbocheng.entity.Student">
+    select id,name,email,age from student
+    where id > 0
+    <if test="name != null and name != '' ">
+        name = #{name} 
+    </if>
+    <if test="age > 0">
+        and age > #{age};
+    </if>
+</select>
+```
+
+**以上语句拼接出的SQL语句是：**
+
+```mysql
+select id,name,email,age from student where name = ? and age > ?; //?占位符 
+```
+
+- 第三步 ：测试方法
+
+```java
+// 测试if标签
+@Test
+public void testSelectStudentIf(){
+    SqlSession sqlSession = MyBatisUtils1.getSqlSession();
+    StudentDao dao = sqlSession.getMapper(StudentDao.class);
+    Student student = new Student();
+    student.setName("");
+    student.setAge(10);
+    List<Student> students = dao.selectStudentIf(student);
+    for (Student student1 : students) {
+        System.out.println("if===" + student1);
+    }
+}
+```
+
+- 输出的结果是：
+
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210817231518.png)
+
+### 13.2 where 标签
+
+-  <mark>where标签</mark> : where标签是用来<mark>包含多个if的</mark>
+- <mark>where的作用</mark> **：当多个if有一个成立的，where会自动增加一个where关键字体。并且去掉多余的拼接属性字符，比如 ：and  or 等。**
+
+**实现方式：**
+
+- 第一步 ：创建接口中的抽象方法（<mark>注意 : sql动态代理动态sql要使用java对象作为参数</mark>）
+
+```java
+/**
+ * 测试动态sql中的 where 标签
+ * 动态sql要使用java对象作为参数
+ */
+List<Student> selectStudentWhere(Student student);
+```
+
+- 第二步 ：在mapper文件中使用动态sql语句。
+- 使用where标签会自动帮我们添加where关键字并且消除多余的or、and语句。如下语句：
+
+![image-20210818210800061](https://gitee.com/YunboCheng/imageBad/raw/master/image/image-20210818210800061.png)
+
+**即使我们传递的名字是一个空的，这个时候也会拼接出正确的SQL，不会报错**
+
+```xml
+<select id="selectStudentWhere" resultType="com.yunbocheng.entity.Student">
+    select id,name,email,age from student
+    <where>
+        <if test="name != null and name != '' ">
+            name = #{name}
+        </if>
+        <if test="age > 0">
+        and age > #{age};
+        </if>
+    </where>
+</select>
+```
+
+- 第三步 ：测试方法
+
+```java
+// 测试where标签
+@Test
+public void testSelectStudentWhere() {
+    SqlSession sqlSession = MyBatis.getSqlSession();
+    StudentDao dao = sqlSession.getMapper(StudentDao.class);
+    Student student = new Student();
+    student.setName("");
+    student.setAge(100);
+    List<Student> students = dao.selectStudentWhere(student);
+    for (Student student1 : students) {
+        System.out.println(student1);
+    }
+}
+```
+
+### 13.3 foreach 语句
+
+- foreach : 循环java中的数组，list集合的。 主要用在<mark>sql的in语句</mark>中。
+      比如：查询id是 1001,1002,1003的三个学生。
+
+```mysql
+ select * from student where id in (1001,1002,1003);
+```
+
+- **标签用于实现对于<mark>数组</mark>与<mark>集合</mark>的遍历**
+-  <mark>collection</mark> 表示要遍历的集合类型, list ，array 等。
+-  <mark>open、close、separator</mark> 为对遍历内容的 SQL 拼接。
+- **语法格式：**
+
+```xml
+<foreach collection="集合类型" open="开始的字符" close="结束的字符" 
+item="集合中的成员" separator="集合成员之间的分隔符">
+ 	#{item 的值}
+</foreach>
+```
+
+**参数解释：**
+
+- **collection** :表示接口中的方法参数的类型， 如果是数组使用array , 如果是list集合使用list。
+- **item:** 自定义的，表示数组和集合成员的变量
+- **open**  :循环开始是的字符
+- **close** :循环结束时的字符
+- **separator** :集合成员之间的分隔符 
+
+#### 13.3.1 遍历 List<简单类型>
+
+- **表达式中的 List 使用 list 表示，其大小使用 list.size 表示。**
+
+**实现方式需求：查询学生 id 是 1002,1005,1006**
+
+-  第一步 ：接口中定义抽象方法 **参数是一个简单的Integer类型集合类型**
+
+```java
+List<Student> selectStudentForeach(List<Integer> stulist);
+```
+
+- 第二步 ：mapper文件
+
+```xml
+<!--
+    测试foreach标签 此时遍历的是一个简单类型
+-->
+<select id="selectStudentForeach" resultType="com.yunbocheng.entity.Student">
+    <!--此时item的值是一个属性，直接使用即可-->
+    select id,name,email,age from student where id in
+    <foreach collection="list" item="myid" open="(" close=")" separator=",">
+        #{myid}
+    </foreach>
+</select>
+<!--注意：这个collection中的liet与测试方法中的list没有关系。-->
+```
+
+- 第三步 ：测试方法
+
+```java
+// 测试foreach
+@Test
+public void testSelectForEachOne() {
+    SqlSession sqlSession = MyBatis.getSqlSession();
+    StudentDao dao = sqlSession.getMapper(StudentDao.class);
+    List<Integer> list = new ArrayList<>();
+    list.add(1002);
+    list.add(1003);
+    list.add(1004);
+    List<Student> students = dao.selectStudentForeach(list);
+    for (Student student1 : students) {
+        System.out.println(student1);
+    }
+}
+```
+
+- 拼接的查询语句：使用foreach会自动拼接出这个<mark>in格式的SQL语句</mark>。
+- 此时查询出的是一个<mark>id=1002，id=1003，id=1004</mark> 的所有学生。
+
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210818215931.png)
+
+- 输出的结果：
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210818220031.png" style="zoom:80%;" />
+
+#### 13.3.2 遍历 List<对象类型>
+
+- 自己创建两个对象，创建出一个对象集合，进行实现。
+- 第一步：接口中的抽象方法 **参数是一个简单的对象集合类型**
+
+```java
+List<Student> selectStudentForeachTwo(List<Student> stuList);
+```
+
+- 第二步 ：mapper文件
+
+```xml
+<!--
+    测试foreach遍历对象集合
+-->
+<select id="selectStudentForeachTwo" resultType="com.yunbocheng.entity.Student">
+    select id,name,email,age from student where id in
+    <!--此时stu是一个Student对象集合 这个stu与测试方法中的studentList没有关系-->
+    <foreach collection="list" item="stu" open="(" close=")" separator=",">
+        <!--这个语法格式是 ：对象.属性值 获取的是id属性的值，如果是 #{stu.name}此时获取的name属性-->
+        #{stu.id}
+    </foreach>
+</select>
+```
+
+- 第三步 ：测试方法
+
+```java
+// 测试foreach遍历对对象集合
+@Test
+public void testSelectForEachTwo() {
+    SqlSession sqlSession = MyBatis.getSqlSession();
+    StudentDao dao = sqlSession.getMapper(StudentDao.class);
+    //定义一个Student对象集合
+    List<Student> studentList = new ArrayList<>();
+    // 创建第一个Student对象
+    Student student1 = new Student();
+    // 给id属性赋值
+    student1.setId(1002);
+    // 将这个对象加入到Student对象集合中
+    studentList.add(student1);
+    // 创建第二个Student对象
+    Student student2 = new Student();
+    student2.setId(1003);
+    studentList.add(student2);
+    // 此时对象集合中有两个对象（student1 student2）
+    List<Student> studentList1 = dao.selectStudentForeachTwo(studentList);
+    for (Student student : studentList1) {
+        System.out.println(student);
+    }
+}
+```
+
+- **拼接的SQL语句**。**此时查询的是id=1002，id=1003的学生**
+
+![image-20210818225305490](https://gitee.com/YunboCheng/imageBad/raw/master/image/image-20210818225305490.png)
+
+- **输出的结果：**
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210818225522.png" style="zoom:80%;" />
 

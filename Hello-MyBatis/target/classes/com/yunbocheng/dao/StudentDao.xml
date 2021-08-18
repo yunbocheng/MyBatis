@@ -16,6 +16,16 @@
     <insert id="insertStudent">
         insert into student values (#{id},#{name},#{email},#{age});
     </insert>
+
+    <!--第一种like,java代码指定 like内容-->
+    <select id="selectLikeOne" resultType="com.yunbocheng.entity.Student">
+        select id,name,email,age from student where name like #{name};
+    </select>
+
+    <!--第二种方式 ：在mapper文件中拼接like内容 %程%-->
+    <select id="selectLikeOne" resultType="com.yunbocheng.entity.Student">
+        select id,name,email,age from student where name like "%" #{name} "%";
+    </select>
 </mapper>
 
 <!--

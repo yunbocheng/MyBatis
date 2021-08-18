@@ -21,4 +21,16 @@ public interface StudentDao {
     // 返回值 ：int，代表执行insert操作后，影响数据库的行数。也就是最后成功添加了几行数据。
     // 添加一行就返回1，添加两行就返回2
     public int insertStudent(Student student);
+
+    /**
+     * 第一种模糊查询
+     * 在Java代码指定 like 的内容。
+     */
+    public List<Student> selectLikeOne(String name);
+
+    /**
+     * 第二种模糊like查询的方法
+     * name就是 程 这个值，在mapper文件中拼接 like %程%
+     */
+    List<Student> selectLikeTwo(String name);
 }

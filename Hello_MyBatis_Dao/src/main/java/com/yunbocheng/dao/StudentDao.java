@@ -18,4 +18,5 @@ public interface StudentDao {
      * 使用resultMap定义映射关系
      */
     List<Student> selectAllStudents();
+
 }

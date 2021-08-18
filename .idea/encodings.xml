@@ -5,5 +5,7 @@
     <file url="file://$PROJECT_DIR$/Hello-MyBatis/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Hello_MyBatis_Dao/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Hello_MyBatis_Dao/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dynamic-sql/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dynamic-sql/src/main/resources" charset="UTF-8" />
   </component>
 </project>

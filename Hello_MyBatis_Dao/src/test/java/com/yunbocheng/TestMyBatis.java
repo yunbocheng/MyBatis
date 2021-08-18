@@ -66,5 +66,10 @@ public class TestMyBatis {
         // 使用mybatis动态代理模式获取到dao的实现类对象
         StudentDao dao = sqlSession.getMapper(StudentDao.class);
         // 使用dao的是实现类对象来调用其中的抽象方法。
+        List<Student> students = dao.selectAllStudents();
+        for (Student student : students) {
+            System.out.println(student);
+        }
     }
+
 }
