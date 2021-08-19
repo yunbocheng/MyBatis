@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunbocheng.dao.StudentDao">
+    <select id="testSelect" parameterType="int" resultType="com.yunbocheng.entity.Student">
+        select id,name,email,age from student where id=#{mybatisId};
+    </select>
+
+    <insert id="testInsert">
+        insert into student values (#{id},#{name},#{email},#{age});
+    </insert>
+
+    <!--多个参数，使用@Param命令-->
+    <select id="selectMulitParam" resultType="com.yunbocheng.entity.Student">
+        select id,name,email,age from student where name = #{myname} or age = #{myage};
+    </select>
+
+
+    <!--多个参数，使用Java对象的属性值，作为参数实际值。
+        使用对象语法 ：#{属性名 , javaType=类型名称 , jdbcType=数据类型} ，很少用。
+            javaType : 是指java中的属性的数据类型。
+            jdbcType : 是指数据库中的数据类型。
+            例如 ： #{paramName,javaType=java.lang.String , jdbcType=VARCHAR}
+        我们使用的简化方式 ：#{属性名} ,javaType和jdbcType的值mybatis反射获取。不用提供。
+    -->
+    <select id="selectQueryStudents" resultType="com.yunbocheng.entity.Student">
+        select id,name,email,age from student where
+        name = #{paramName,javaType=java.lang.String , jdbcType=VARCHAR}
+        or age = #{paramAge,javaType=java.lang.Integer , jdbcType=INTEGER};
+    </select>
+
+    <!--简化的语法-->
+    <select id="selectQueryStudents" resultType="com.yunbocheng.entity.Student">
+        select id,name,email,age from student where name = #{paramName} or age = #{paramAge};
+    </select>
+
+    <!--按位置传递多个参数-->
+    <select id="selectMultiPosition" resultType="com.yunbocheng.entity.Student">
+        select id,name,email,age from student where name = #{arg0} or age = #{arg1};
+    </select>
+
+    <!--多个参数使用Map，使用的语法是 #{map的key}-->
+    <select id="selectMulitByMap" resultType="com.yunbocheng.dao.StudentDao">
+        select id,name,email,age from student where name = #{myname} or age = #{myage};
+    </select>
+</mapper>
