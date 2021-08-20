@@ -1274,6 +1274,8 @@ public void testSelectForEachOne() {
 
 #### 13.3.2 遍历 List<对象类型>
 
+- 使用对象可以一次性向SQL语句中传递多个参数值。
+
 - 自己创建两个对象，创建出一个对象集合，进行实现。
 - 第一步：接口中的抽象方法 **参数是一个简单的对象集合类型**
 
@@ -1332,4 +1334,331 @@ public void testSelectForEachTwo() {
 - **输出的结果：**
 
 <img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210818225522.png" style="zoom:80%;" />
+
+#### 13.3.3 foreach很灵活
+
+- 修改mapper文件，我们可以不使用 <mark>open以及close属性</mark>，我们自己拼接这个SQL语句。就是这个语句。我们不使用<mark>open="("  和  close=")"</mark>，而是自己拼接这个开始和结束字符。
+
+```java
+<select id="selectStudentForeachTwo" resultType="com.yunbocheng.entity.Student">
+    select id,name,email,age from student where id in (
+    <!--此时stu是一个Student对象集合 这个stu与测试方法中的studentList没有关系-->
+    <foreach collection="list" item="stu" separator=",">
+        <!--这个语法格式是 ：对象.属性值 获取的是id属性的值，如果是 #{stu.name}此时获取的name属性-->
+        #{stu.id}
+    </foreach>
+    )
+</select>
+```
+
+- 使用以上我们手动拼接的SQL语句与使用<mark>open和colse属性</mark>拼接出的SQL语句是一样的。
+
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210820192709.png)
+
+### 13.4 动态sql-代码片段
+
+- <mark>sql标签</mark>用于定义 SQL 片断，以便其它 SQL 标签复用。而其它标签使用该 SQL 片断，需要使用 <mark>子标签</mark>。该标签可以定义 SQL 语句中的<mark>任何部分</mark>，所以子标签可以放在动态 SQL 的任何位置。
+- <mark>sql代码片段</mark>，就是复用一些语法，我们在实际的开发过程中，难免会书写重复的SQL语句，这个重复的SQL语句可能是一整条SQL语句，也可能是SQL语句的一部分，我们这个时候可以使用<mark>动态sql-代码片段</mark>的方式将这个些重复的SQL语句包装起来，定义一个id属性，便于我们以后使用。
+- 在一个mapper文件中可以定义<mark>多个代码片段</mark>
+
+**使用方式**
+
+1. 先在mapper文件中定义 <sql id="自定义名称唯一">  sql语句， 表名，字段等 </sql>
+2. 再使用， <include refid="id的值" />
+
+**实现方式**
+
+- 定义接口中的抽象方法，
+
+```java
+<!--这个定义一个 if标签 方法-->
+List<Student> selectStudentIf(Student student);
+
+<!--这个定义一个 where标签 方法-->
+List<Student> selectStudentWhere(Student student);    
+```
+
+- 修改mapper文件,以下两个SQL语句中都需要<mark>select id,name,email,age from student</mark>。这个语句，我们此时将这个语句放在动态sql-代码片段中，定义一个别名，可以让我们重复使用。
+
+```xml
+<!--定义sql片段，给以下这段代码定义为动态片段，定义一个别名，以后代码可以重复利用-->
+<sql id="studentSql">
+    
+</sql>
+
+<!--以下代码是使用 if标签 查询数据的SQL语句-->
+<select id="selectStudentIf" resultType="com.yunbocheng.entity.Student">
+    <include refid="studentSql"/>
+    where id>0 and
+    <if test="name != null and name != '' ">
+        name = #{name}
+    </if>
+    <if test="age > 0">
+     and  age > #{age};
+    </if>
+</select>
+
+<!--以下代码是使用 where标签 查询数据的SQL语句-->
+<select id="selectStudentWhere" resultType="com.yunbocheng.entity.Student">
+    <include refid="studentSql"/>
+    <where>
+        <if test="name != null and name != '' ">
+            name = #{name}
+        </if>
+        <if test="age > 0">
+        and age > #{age};
+        </if>
+    </where>
+</select>
+```
+
+- 测试方法，以下我们只测试一个，测试结果和以前一样不。
+
+```java
+// 测试sql-代码片段
+@Test
+public void testSelectStudentIf() {
+    SqlSession sqlSession = MyBatis.getSqlSession();
+    StudentDao dao = sqlSession.getMapper(StudentDao.class);
+    Student student = new Student();
+    student.setName("程云博");
+    student.setAge(10);
+    List<Student> students = dao.selectStudentIf(student);
+    for (Student student1 : students) {
+        System.out.println("if===" + student1);
+    }
+}
+```
+
+- **查询结果，我们可以看到查询结果是和不使用动态代码的结果是一样的。**
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210820200219.png" style="zoom:80%;" />
+
+
+
+- 我们还可以定义一段类名或者代码片段
+
+```xml
+<!--定义一个只包含列名的代码片段-->
+<sql id="studentOne">
+    id,name,email,age  
+</sql>
+
+<!--使用动态代码片段创建SQL语句-->
+<select id="selectStudentIf" resultType="com.yunbocheng.entity.Student">
+    select <include refid="studentOne"/> from student
+    where id>0 and
+    <if test="name != null and name != '' ">
+        name = #{name}
+    </if>
+    <if test="age > 0">
+     and  age > #{age};
+    </if>
+</select>
+```
+
+- **这样我们需要自己拼接剩余的SQL。**
+
+## 14.MyBatis配置文件
+
+### 14.1 主配置文件
+
+- **之前项目中使用的 mybatis.xml 是主配置文件。**
+
+- 主配置文件特点：
+
+  1. xml 文件，需要在头部使用约束文件
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8" ?>
+  <!DOCTYPE configuration
+   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  ```
+
+  2. 根元素，configuration
+  3. 主要包含内容：  <mark>定义别名</mark>  <mark>数据源</mark>  <mark>mapper 文件</mark>
+
+### 14.2 dataSource 标签
+
+- Mybatis 中访问数据库，可以连接池技术，但它采用的是自己的连接池技术。
+- 在 Mybatis 的 mybatis.xml 配置文件中，通过来实现 Mybatis 中连接池的配置。
+
+#### 14.2.1  dataSource 类型
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210820205104.png" style="zoom:80%;" />
+
+上图看出 Mybatis 将数据源分为三类：
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210820204612.png" style="zoom: 67%;" />
+
+其中 UNPOOLED ,POOLED 数据源实现了 javax.sq.DataSource 接口， JNDI 和前面两个实现方式不同，了解可以。
+
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210820205234.png)
+
+#### 14.2.2 dataSource 配置
+
+- **在 MyBatis.xml 主配置文件，配置 dataSource**
+
+```xml
+<dataSource type="POOLED">
+ <!--连接数据库的四个要素-->
+ <property name="driver" value="com.mysql.jdbc.Driver"/>
+ <property name="url" 
+value="jdbc:mysql://localhost:3306/ssm?charset=utf-8"/>
+ <property name="username" value="root"/>
+ <property name="password" value="123456"/>
+</dataSource>
+```
+
+**MyBatis 在初始化时，根据的 type 属性来创建相应类型的的数据源 DataSource**
+
+-  type=”POOLED”：MyBatis 会创建 PooledDataSource 实例
+- type=”UNPOOLED” ： MyBatis 会创建 UnpooledDataSource 实例 
+- type=”JNDI”：MyBatis 会从 JNDI 服务上查找 DataSource 实例，然后返回使用
+
+### 14.3 事务
+
+#### 14.3.1  默认需要手动提交事务
+
+- **Mybatis 框架是对 JDBC 的封装**，所以 Mybatis 框架的事务控制方式，本身也是用 JDBC 的 Connection 对象的 commit(), rollback() 。
+- Connection 对象的 setAutoCommit()方法来设置事务提交方式的。**自动提交和手工提交**
+
+```xml
+<transactionManager type="JDBC"/>
+```
+
+- 该标签用于指定 MyBatis所使用的事务管理器。MyBatis 支持两种事务管理器类型：**JDBC 与 MANAGED。**
+
+- <mark>JDBC</mark>：使用 JDBC 的事务管理机制。即，通过 Connection 的 commit()方法提交，通过 rollback()方法 回滚。但默认情况下，MyBatis 将自动提交功能关闭了，改为了手动提交。即程序中需要显式的对 事务进行提交或回滚。从日志的输出信息中可以看到。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210820205654.png" style="zoom:67%;" />
+
+- <mark>MANAGED</mark>：由容器来管理事务的整个生命周期（如 Spring 容器）。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210820202613.png" style="zoom: 50%;" />
+
+#### 14.3.2 自动提交事务
+
+- **设置自动提交的方式，factory 的 openSession() 分为有参数和无参数的。**
+
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/20210820205821.png)
+
+- 有参数为 true，使用自动提交，可以修改 MyBatisUtil 的 getSqlSession()方法。
+
+```java
+session = factory.openSession(true);
+```
+
+- 再执行 insert 操作，无需执行 session.commit(),事务是自动提交的
+
+### 14.4  数据库属性配置文件
+
+- 为了**方便对数据库连接的管理**，<mark>DB（数据存储单位）连接四要素数据</mark>一般都是存放在一个专门的属性文件中的。MyBatis 主配置文件需要从这个属性文件中读取这些数据。
+
+- 目的是便于修改、保存、处理多个数据库的信息。
+- 这样做的目的是<mark>不用修改Mybatis文件</mark>，只需要修改<mark>properties配置文件</mark>即可。
+- 这样可以在一个<mark>properties配置文件</mark>中<mark>创建连接多个数据库信息</mark>，在主配置文件中想使用哪个数据库直接修改即可。可以更加方便的维护mybatis主配置文件。
+
+**使用方式**
+
+1. **在 resources 路径下，创建 properties 文件，在这个创建一个jdbc.properties配置文件**
+
+   在<mark>resources 目录创建 xxxx.properties</mark> 属性配置文件，文件名称自定义。
+
+   例如：jdbc.properties
+
+   在属性配置文件中，定义数据，<mark>格式是 ：key = value </mark>  （其中key和value是自定义的）
+
+   key : 一般使用 ，做多级目录的（一般使用两级到三级的）。 例如 ： <mark>jdbc.mysql.driver</mark> 或者 <mark>jdbc.deiver</mark>。如果不想这个使用，使用<mark>mydriver </mark> 也完全没有问题。
+
+   ```java
+   jdbc.driver=com.mysql.jdbc.Driver
+   jdbc.url=jdbc:mysql//.....
+   jdbc.username=root
+   jdbc.password=123456
+   ```
+
+2. **在mybatis的主配置文件，使用<properties> 指定文件的位置 。**在需要使用值的地方<mark>${key}</mark>
+
+   ```xml
+   <!--指定properties配置文件所在的位置，从类路径根开始找文件-->
+   <!--这个类路径的根路径就是这个resources 文件-->
+   <!--修改主配置文件，文件开始位置加入-->
+   <configuration>
+   	<properties resource = "jdbc.properties" />
+   ```
+
+3. **使用 key 指定值，使用的格式是 ：<mark>${key}</mark>** 
+
+   ```xml
+   <!--其中key是 jdbc.properties 配置文件中的key-->
+   <dataSource type="POOLED">
+    <!--使用 properties 文件: 语法 ${key}-->
+    <property name="driver" value="${jdbc.driver}"/>
+    <property name="url" value="${jdbc.url}"/>
+    <property name="username" value="${jdbc.username}"/>
+    <property name="password" value="${jdbc.password}"/>
+   </dataSource>
+   ```
+
+### 14.5  typeAliases（类型别名）
+
+- **Mybatis 支持默认别名，我们也可以采用自定义别名方式来开发。**
+- 主要使用在 ： <mark><select resultType="别名"></mark>
+
+- **第一步 ：mybatis.xml 主配置文件定义别名：**
+
+```xml
+<typeAliases>
+ <!--
+ 定义单个类型的别名
+ type:类型的全限定名称
+ alias:自定义别名 
+ -->
+ <typeAlias type="com.yunbocheng.entity.Student" alias="mystudent"/>
+
+<!--
+ 批量定义别名，扫描整个包下的类，别名为类名（首字母大写或小写都可以）
+ name:包名 
+ -->
+ <package name="com.yunbocheng.entity"/>
+ <package name="...其他包"/>
+</typeAliases>    
+```
+
+- **第二步 ：mapper.xml 文件，使用别名表示类型**
+
+```xml
+<select id="selectStudents" resultType="mystudent">
+ select id,name,email,age from student
+</select>
+```
+
+### 14.6  mappers（映射器）
+
+#### 14.6.1 第一种方式 (使用mapper文件)mapper resource=" " 
+
+- **mapper依一次只能指定一个文件**，如果有多个mapper文件，需要创建多个mapper文件。
+
+- **使用相对于类路径的资源,从 classpath（Java文件）路径查找文件**
+
+```xml
+<!--resource代表这个项目的一个mapper文件地址，这个地址从Java根路径开始-->
+<mapper resource="com/yunbocheng/dao/StudentDao.xml" /> 
+```
+
+#### 14.6.2  第二种方式(使用包名) package name=""
+
+- **指定包下的所有 Dao 接口**
+
+```xml
+<!--name: xml文件(mapper文件)所在的包名，可以导入多个包名-->
+<!--name：xml文件(mapper文件)所在的包名，这个包中的所有xml文件一次都能加载给mybatis-->
+<package name="com.yunbocheng.entity"/>
+<package name="com.yunbocheng.entity1"/>
+<package name="com.yunbocheng.entity2"/>
+```
+
+- **注意：此种方法要求 Dao 接口名称和 mapper 映射文件名称相同(区分大小写)，且在同一个目录中。**
 

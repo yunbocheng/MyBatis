@@ -8,8 +8,17 @@
         <if : test="使用接口中参数Java对象的属性值作为i判断条件">
         语法格式 ：属性=xxx值 （当然也可以是 属性!=xxx值）
     -->
-    <select id="selectStudentIf" resultType="com.yunbocheng.entity.Student">
+    <!--定义sql片段-->
+    <sql id="studentSql">
         select id,name,email,age from student
+    </sql>
+
+    <!--定义只包含列名的动态代码片段-->
+    <sql id="studentOne">
+        id,name,email,age
+    </sql>
+    <select id="selectStudentIf" resultType="com.yunbocheng.entity.Student">
+        select <include refid="studentOne"/> from student
         where id>0 and
         <if test="name != null and name != '' ">
             name = #{name}
@@ -23,7 +32,7 @@
 
     -->
     <select id="selectStudentWhere" resultType="com.yunbocheng.entity.Student">
-        select id,name,email,age from student
+        <include refid="studentSql"/>
         <where>
             <if test="name != null and name != '' ">
                 name = #{name}
@@ -48,12 +57,13 @@
         测试foreach遍历对象集合
     -->
     <select id="selectStudentForeachTwo" resultType="com.yunbocheng.entity.Student">
-        select id,name,email,age from student where id in
+        select id,name,email,age from student where id in (
         <!--此时stu是一个Student对象集合 这个stu与测试方法中的studentList没有关系-->
-        <foreach collection="list" item="stu" open="(" close=")" separator=",">
+        <foreach collection="list" item="stu" separator=",">
             <!--这个语法格式是 ：对象.属性值 获取的是id属性的值，如果是 #{stu.name}此时获取的name属性-->
             #{stu.id}
         </foreach>
+        )
     </select>
 
 </mapper>
