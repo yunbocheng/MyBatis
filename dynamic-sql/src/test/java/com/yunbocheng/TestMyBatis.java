@@ -1,5 +1,6 @@
 package com.yunbocheng;
 
+import com.github.pagehelper.PageHelper;
 import com.yunbocheng.dao.StudentDao;
 import com.yunbocheng.entity.Student;
 import com.yunbocheng.utils.MyBatis;
@@ -76,6 +77,20 @@ public class TestMyBatis {
         List<Student> studentList1 = dao.selectStudentForeachTwo(studentList);
         for (Student student : studentList1) {
             System.out.println(student);
+        }
+    }
+    // 测试if标签
+    @Test
+    public void testSelectAll() {
+        SqlSession sqlSession = MyBatis.getSqlSession();
+        StudentDao dao = sqlSession.getMapper(StudentDao.class);
+        // 加入PageHelper的方法，进行分页
+        // pageNum : 代表第几页，从1开始。
+        // pageSize : 代表一页中有多少行数据。
+        PageHelper.startPage(1,3);
+        List<Student> students = dao.selectAll();
+        for (Student student1 : students) {
+            System.out.println("if===" + student1);
         }
     }
 }

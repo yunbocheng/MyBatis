@@ -66,4 +66,8 @@
         )
     </select>
 
+    <!-- 查询所有的数据-->
+    <select id="selectAll" resultType="com.yunbocheng.entity.Student">
+        select * from student order by id
+    </select>
 </mapper>

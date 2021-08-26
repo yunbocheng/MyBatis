@@ -1,6 +1,7 @@
 package com.yunbocheng.dao;
 
 import com.yunbocheng.entity.Student;
+import jdk.nashorn.internal.runtime.ScriptRuntime;
 
 import java.util.List;
 
@@ -24,4 +25,7 @@ public interface StudentDao {
     List<Student> selectStudentForeach(List<Integer> list);
 
     List<Student> selectStudentForeachTwo(List<Student> stuList);
+
+    // 使用PageHelper分页数据
+    List<Student> selectAll();
 }

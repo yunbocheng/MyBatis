@@ -1,5 +1,9 @@
 # MyBatis框架
 
+[TOC]
+
+
+
 ## 1. 软件开发常用结构
 
 - **MyBatis是<mark>操作数据库</mark>的，相当于是一个<mark>增强的JDBC</mark>**
@@ -1661,4 +1665,102 @@ session = factory.openSession(true);
 ```
 
 - **注意：此种方法要求 Dao 接口名称和 mapper 映射文件名称相同(区分大小写)，且在同一个目录中。**
+
+## 15.MyBatis分页插件PageHelper
+
+## 15.1 PageHelper介绍
+
+- PageHelper 是做数据分页的。
+- 应用场景举例 ： 比如线上购物中对于商品的评价，不可能一次从数据库中取出来所有的数据及进行展示，而是分批次取出，一次取出10条展示在页面之上，此时可以用到数据分页。
+- 这个PageHelper就相当于MySQL中的limit ，PageHelper就是帮助我们实现limit的功能。
+- 这个PageHelper不是MyBatis框架的原始组件，是国内的作者写的一个小功能组件。
+
+### 15.2 PageHelper应用范围
+
+- PageHelper支持多种数据库：
+
+1. Oracle 
+2.  Mysql 
+3.  MariaDB 
+4. SQLite 
+5.  Hsqldb 
+6.  PostgreSQL 
+7.  DB2    等多种数据库.....
+
+**注意 ：在每种不同的数据库中，pageHelper语法格式是不同的。**
+
+## 15.3 PageHelper使用方式
+
+**这里我们使用MySQL数据库介绍**
+
+- 第一步 ：在项目的pom.xml文件中加入PageHelper依赖 （Maven坐标）
+
+```xml
+<!--加入PageHelper依赖-->
+<dependency>
+  <groupId>com.github.pagehelper</groupId>
+  <artifactId>pagehelper</artifactId>
+  <version>5.1.10</version>
+</dependency>
+```
+
+- 第二步 ：在项目的主配置文件(MyBatis.xml文件)中加入plugin(插件)配置。
+
+```xml
+<!--将这个PageHelper插件写入到环境配置之前-->
+<plugins>
+    <plugins>
+    <plugin interceptor="com.github.pagehelper.PageInterceptor" >
+    <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库-->
+        <property name="dialect" value="mysql" />
+    </plugin>
+</plugins>
+</plugins>
+```
+
+- 第三步 ：在项目的接口类中创建一个使用PageHelper分页数的抽象方法。
+
+```java
+// 使用PageHelper分页数据
+List<Student> selectAll();
+```
+
+- 第四步 ：配置mapper文件，查询数据库中所有的数据，之后使用PageHelper进行分页。
+
+```xml
+<!-- 查询所有的数据-->
+<select id="selectAll" resultType="com.yunbocheng.entity.Student">
+    select * from student order by id;
+</select>
+```
+
+- 第五步 ：在测试类中使用PageHelper中
+
+```java
+@Test
+public void testSelect() throws IOException {
+// PageHelper.startPage 静态方法。进行分页
+// pageNum : 代表第几页，从1开始。
+// pageSize : 代表一页中有多少行数据。
+PageHelper.startPage(2,3);
+List<Student> students = dao.selectAll();
+studentList.forEach( stu -> System.out.println(stu));
+}
+```
+
+**查看输出的结果 ：**
+
+- 第一步 ：使用PageHelper功能组件第一步回先计算出我们的数据有多少行。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/image-20210821100518140.png" alt="image-20210821100518140" style="zoom: 67%;" />
+
+- 第二步 ：根据我们给出的pageNum于pageSize参数进行查询。PageHelper会自动帮我们拼接处limit语句。并帮我们计算出查询开位置与查询结束位置。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210821101002.png" style="zoom:67%;" />
+
+- 查询的结果，这个结果会查询到数据库中第三行、第四行、第五行的数据。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210821101608.png" style="zoom:67%;" />
+
+详细地址 ： https://github.com/pagehelper/Mybatis-PageHelper
 

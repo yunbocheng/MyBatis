@@ -40,7 +40,12 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.23</version>
     </dependency>
-
+    <!--加入PageHelper依赖-->
+    <dependency>
+      <groupId>com.github.pagehelper</groupId>
+      <artifactId>pagehelper</artifactId>
+      <version>5.1.10</version>
+    </dependency>
   </dependencies>
   <build>
     <resources>

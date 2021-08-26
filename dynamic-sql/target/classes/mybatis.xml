@@ -18,6 +18,11 @@
             default : 必须和某个environment的id值一样。给我mybatis
                       使用哪个数据库的连接信息，也就是访问哪个数据库。
     -->
+
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor" />
+    </plugins>
+
     <environments default="mydev">
         <!--
             environment ：一个数据库信息的配置，也就是环境。
