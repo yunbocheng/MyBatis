@@ -1,7 +1,7 @@
 # MyBatis
 
 <center>
-<img src="" >
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/mybatis1.jpg" >
 </center>
 
 <div align="center">
@@ -16,29 +16,30 @@
 
 
 
-## 一、Maven项目结构
+## 一、MyBatis操作数据库原理
 
-![](https://gitee.com/YunboCheng/imageBad/raw/master/image/Maven%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.jpg)
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/mybatis%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93.jpg)
 
-## 二、Maven思维导图
+## 二、MyBatis核心结构
 
-![](https://gitee.com/YunboCheng/imageBad/raw/master/image/Maven%E6%80%9D%E7%BB%B4%E5%A4%A7%E5%9B%BE.jpg)
+![](https://gitee.com/YunboCheng/imageBad/raw/master/image/mybatis%E5%8E%9F%E7%90%86.jpg)
 
 ## 三、清单
 
-### 1.Maven
+### 1.MyBatis
 
--	[使用Maven构建JavaSE项目](./JavaSE_Maven)
--	[使用Maven构建JavaWeb项目](./Web_Maven)
--	[Maven思维导图](./maven思维导图.pdf)
--	[Maven概念](./Maven概念.md)
+-	[动态SQL语句](./dynamic-sql)
+-	[MyBatis核心结构](./Hello-MyBatis)
+-	[MyBatis实现常用结构](./Hello_MyBatis_Dao)
+-	[MyBatis概念](./MyBatis概念.md)
 
 
 ## 四、参考文献
 
-Apache中央仓库 :
 
-> - [Apache中央仓库 ](https://mvnrepository.com/)
+MyBatis中文手册 :
+
+> - [MyBatis中文手册](https://mybatis.org/mybatis-3/zh/getting-started.html)
 
 ## 五、反馈及改进
 
@@ -60,7 +61,7 @@ Apache中央仓库 :
 
 ## 八、致谢
 
->  1. 感谢动力节点提供的Ajax在线课程视频资料 [Maven在线课程](https://www.bilibili.com/video/BV1dp4y1Q7Hf)
+>  1. 感谢动力节点提供的Ajax在线课程视频资料 [MyBatis在线课程](https://www.bilibili.com/video/BV185411s7Ry)
 >  2. 感谢JetBrains提供的配套开发环境许可证 [官方网站](https://www.jetbrains.com/)
 >  3. 感谢Gitee提供的图床平台 [相关地址](https://gitee.com/YunboCheng/imageBad)
 
