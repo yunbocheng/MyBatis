@@ -596,9 +596,9 @@ select id,name, email,age from student where id=${studentId}
 	$ 的结果：select id,name, email,age from student where id=1001
 ```
 
-### 9.3 # 与 的区别（面试题）
+### 9.3 # 与 $ 的区别（面试题）
 
-- #使用 ？在sql语句中做站位的， 使用PreparedStatement执行sql，效率高
+- #使用在sql语句中做站位的， 使用PreparedStatement执行sql，效率高
 - #能够避免sql注入，更安全。
 - $不使用占位符，是字符串连接方式，使用Statement对象执行sql，效率低
 - $有sql注入的风险，缺乏安全性。
