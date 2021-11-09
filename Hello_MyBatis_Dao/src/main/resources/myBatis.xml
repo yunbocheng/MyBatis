@@ -13,7 +13,8 @@
                 <!--数据库的驱动类名-->
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
                 <!--连接数据库的url字符串-->
-                <property name="url" value="jdbc:mysql://localhost:3306/ssm1?characterEncoding=utf-8"/>
+                <!--这里使用转义的 &amp; 来连接多个参数-->
+                <property name="url" value="jdbc:mysql://localhost:3306/ssm1?characterEncoding=utf-8&amp;serverTimezone=CMT"/>
                 <!--访问数据库的用户名-->
                 <property name="username" value="root"/>
                 <!--密码-->
