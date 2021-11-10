@@ -3,9 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yunbocheng.dao.StudentDao">
+
+    <sql id="mySql">
+        id,name,email,age
+    </sql>
+
     <select id="testSelect" resultType="com.yunbocheng.entity.Student">
-        select id,name,email,age from student order by id;
+        select <include refid="mySql"></include> from student order by id;
     </select>
+
+
     <insert id="testInsert">
         insert into student values (#{id},#{name},#{email},#{age});
     </insert>

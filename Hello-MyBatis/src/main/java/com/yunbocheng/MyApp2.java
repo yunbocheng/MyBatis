@@ -1,7 +1,7 @@
 package com.yunbocheng;
 
 import com.yunbocheng.entity.Student;
-import com.yunbocheng.utils.MyBatisUtils1;
+import com.yunbocheng.utils.MyBatisUtils4;
 import org.apache.ibatis.session.SqlSession;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class MyApp2 {
     public static void main(String[] args) throws IOException {
 
         // 5.【重点】获取SqlSession对象，从SqlSessionFactory中获取SqlSession
-        SqlSession sqlSession = MyBatisUtils1.getSqlSession();
+        SqlSession sqlSession = MyBatisUtils4.getSqlSession();
         // 6.【重点】指定要执行的sql语句的标识。sql映射文件中的namespace的值 + "." + select标签的id值。
         // String sqlId = "com.yunbocheng.dao.StudentDao" + "." + "selectstudents";
         String sqlId = "com.yunbocheng.dao.StudentDao.selectStudents";

@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mysql://localhost:3306/ssm1?serverTimezone=GMT</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="维信科技" uuid="e8a0e95c-2ce6-488a-b7be-627308ba76b6">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/school?serverTimezone=GMT&amp;character=utf8</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

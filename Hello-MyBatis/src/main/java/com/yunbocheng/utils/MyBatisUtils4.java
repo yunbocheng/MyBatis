@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MyBatisUtils1 {
+public class MyBatisUtils4 {
 
     // 创建一个全局的 SqlSessionFactory接口的实现类对象，用于创建SqlSession接口的实现类对象。
     private static SqlSessionFactory factory = null;

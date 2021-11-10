@@ -1,8 +1,7 @@
 package com.yunbocheng;
 
-import com.yunbocheng.dao.StudentDao;
 import com.yunbocheng.entity.Student;
-import com.yunbocheng.utils.MyBatisUtils1;
+import com.yunbocheng.utils.MyBatisUtils4;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -54,8 +53,8 @@ public class TestMyBatis {
 
     @Test
     public void selectSelectLikeOne(){
-        SqlSession sqlSession = MyBatisUtils1.getSqlSession();
-        StudentDao dao = sqlSession.getMapper(StudentDao.class);
+        SqlSession sqlSession = MyBatisUtils4.getSqlSession();
+        java.com.yunbocheng.dao.StudentDao dao = sqlSession.getMapper(java.com.yunbocheng.dao.StudentDao.class);
 
         // 准备好like的内容，使用dao接口的实现类对象调用方法
         String name = "%程%";
@@ -67,8 +66,8 @@ public class TestMyBatis {
 
     @Test
     public void selectSelectLikeTwo(){
-        SqlSession sqlSession = MyBatisUtils1.getSqlSession();
-        StudentDao dao = sqlSession.getMapper(StudentDao.class);
+        SqlSession sqlSession = MyBatisUtils4.getSqlSession();
+        java.com.yunbocheng.dao.StudentDao dao = sqlSession.getMapper(java.com.yunbocheng.dao.StudentDao.class);
 
         // 准备好like的内容，使用dao接口的实现类对象调用方法
         String name = "程";

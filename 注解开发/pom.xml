@@ -4,14 +4,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.yunbocheng</groupId>
-  <artifactId>Hello_MyBatis_Dao</artifactId>
+  <groupId>org.example</groupId>
+  <artifactId>annotation</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -22,20 +22,28 @@
       <scope>test</scope>
     </dependency>
 
-    <!--添加MyBatis依赖-->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.25</version>
+    </dependency>
+
+  <dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.5.7</version>
+  </dependency>
     <dependency>
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis</artifactId>
       <version>3.5.7</version>
+      <scope>compile</scope>
     </dependency>
-    <!--添加数据库依赖-->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.23</version>
-    </dependency>
+
   </dependencies>
   <build>
+
+    <!--只要将这个resources标签中放到build标签中就可以，pom.xml文件中-->
     <resources>
       <resource>
         <directory>src/main/java</directory><!--所在的目录-->
@@ -50,5 +58,15 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>

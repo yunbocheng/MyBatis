@@ -13,13 +13,15 @@
         select id,name,email,age from student
     </sql>
 
+    <!--在xml文件中，不适用 > < 号，此时使用实体符号 &gt; &lt; -->
     <!--定义只包含列名的动态代码片段-->
     <sql id="studentOne">
         id,name,email,age
     </sql>
-    <select id="selectStudentIf" resultType="com.yunbocheng.entity.Student">
+
+    <select id="selectStudentIf" resultType="com.yunbocheng.entity.Student" parameterType="com.yunbocheng.entity.Student">
         select <include refid="studentOne"/> from student
-        where id>0 and
+        where id &gt; 0 and
         <if test="name != null and name != '' ">
             name = #{name}
         </if>

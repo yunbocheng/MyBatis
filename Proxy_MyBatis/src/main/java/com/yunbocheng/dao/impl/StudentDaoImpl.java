@@ -50,7 +50,7 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public List<Student> selectMultiPosition(String name, Integer age) {
+    public List<Student> selectMultizPosition(String name, Integer age) {
         return null;
     }
 

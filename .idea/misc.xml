@@ -5,6 +5,8 @@
       <list>
         <option value="$PROJECT_DIR$/Hello_MyBatis_Dao/pom.xml" />
         <option value="$PROJECT_DIR$/dynamic-sql/pom.xml" />
+        <option value="$PROJECT_DIR$/Hello-MyBatis/pom.xml" />
+        <option value="$PROJECT_DIR$/注解开发/pom.xml" />
       </list>
     </option>
   </component>

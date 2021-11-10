@@ -6,15 +6,14 @@
         <settings>
             <setting name="logImpl" value="STDOUT_LOGGING" />
         </settings>
-    <environments default="mysql">
-        <environment id="mysql">
+    <environments default="mydev">
+        <environment id="mydev">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <!--数据库的驱动类名-->
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <!--连接数据库的url字符串-->
-                <!--这里使用转义的 &amp; 来连接多个参数-->
-                <property name="url" value="jdbc:mysql://localhost:3306/ssm1?characterEncoding=utf-8&amp;serverTimezone=CMT"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/school?characterEncoding=utf-8"/>
                 <!--访问数据库的用户名-->
                 <property name="username" value="root"/>
                 <!--密码-->
@@ -23,6 +22,11 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="com/yunbocheng/dao/StudentDao.xml"/>
+        <!--
+            这是以前使用mapper.xml方式来进行操作的配置信息
+            <mapper resource="com/yunbocheng/dao/StudentDao.xml"/>
+        -->
+        <!--此时我们使用注解的方式，将这个全限定名称指向包含操作数据库语句注解的包-->
+        <package name="com.yunbocheng.dao"/>
     </mappers>
 </configuration>

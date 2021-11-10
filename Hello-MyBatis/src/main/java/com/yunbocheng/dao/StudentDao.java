@@ -1,4 +1,5 @@
-package com.yunbocheng.dao;
+package java.com.yunbocheng.dao;
+
 
 import com.yunbocheng.entity.Student;
 

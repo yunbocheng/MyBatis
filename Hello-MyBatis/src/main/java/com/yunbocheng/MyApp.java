@@ -24,7 +24,7 @@ public class MyApp {
         // 此时MyBatis会自动找 target/classes路径下的这个 mybatis.xml 文件
         String config = "mybatis.xml";
         // 2.读取这个config表示的文件
-        InputStream in = Resources.getResourceAsStream(config);
+            InputStream in = Resources.getResourceAsStream(config);
         // 3.创建了SqlSessionFactoryBuilder对象
         SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
         // 4.创建SqlSessionFactory对象
