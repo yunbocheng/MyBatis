@@ -8,12 +8,39 @@
         id,name,email,age
     </sql>
 
-    <select id="testSelect" resultType="com.yunbocheng.entity.Student">
+
+
+    <!--
+        第一种解决数据库列名和属性名不同的解决方案，使用resultMap
+        resultMap代表的是数据库中列名和实体类中属性名的映射关系，专门用于解决两边名称不同的问题
+    -->
+    <resultMap id="StudentMap" type="com.yunbocheng.entity.Student">
+        <!--主键使用id标签进行映射，column代表数据库中的字段名(列名)，property代表实体类中的属性名-->
+        <id column="id" property="id"></id>
+        <!--非主键使用result标签进行映射-->
+        <result column="name" property="name"></result>
+        <result column="email" property="email"></result>
+        <result column="age" property="age"></result>
+    </resultMap>
+
+
+    <!--
+        第二种解决数据库列名和属性名不同的解决方案 使用resultType 使用列的别名(列的别名就是Java实体类属性名)
+        resultType的默认原则：同名的列值赋值给同名的属性 ，此时改变数据库的列名即可，将这个列名重命名为Java实体类的属性名
+    -->
+
+    <select id="testResultType" resultType="com.yunbocheng.entity.Student">
+        /*别名为Java实体类的属性名*/
+        select id as stuId , name as stuName , age as stuAge  from tab_student
+    </select>
+    <!--注意：resultMap和resultType不要一起使用-->
+    <!--<select id="testSelect" resultType="com.yunbocheng.entity.Student" resultMap="StudentMap">-->
+    <select id="testSelect"  resultMap="StudentMap">
         select <include refid="mySql"></include> from student order by id;
     </select>
 
 
-    <insert id="testInsert">
+    <insert id="testInsert" >
         insert into student values (#{id},#{name},#{email},#{age});
     </insert>
 
@@ -27,7 +54,5 @@
     <select id="selectAllStudents" resultMap="studentMap">
         select id,name,email,age from student;
     </select>
-
-
 
 </mapper>

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -9,6 +10,7 @@
         <module name="Hello_MyBatis_Dao" />
         <module name="Hello-MyBatis" />
         <module name="dynamic-sql" />
+        <module name="PageHelper分页" />
         <module name="注解开发" />
       </profile>
     </annotationProcessing>
@@ -17,6 +19,7 @@
       <module name="Hello-MyBatis" target="1.8" />
       <module name="Hello_MyBatis_Dao" target="1.8" />
       <module name="MyBatis -resultType" target="1.8" />
+      <module name="PageHelper分页" target="1.8" />
       <module name="注解开发" target="8" />
     </bytecodeTargetLevel>
   </component>

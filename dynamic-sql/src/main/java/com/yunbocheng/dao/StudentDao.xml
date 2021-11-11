@@ -19,6 +19,10 @@
         id,name,email,age
     </sql>
 
+
+
+    <!--以下的if标签中的判断语句只要成立，那边就会将这个if标签中的语句拼接到这个sql语句之后，且不会忽略and、or等关键字-->
+
     <select id="selectStudentIf" resultType="com.yunbocheng.entity.Student" parameterType="com.yunbocheng.entity.Student">
         select <include refid="studentOne"/> from student
         where id &gt; 0 and

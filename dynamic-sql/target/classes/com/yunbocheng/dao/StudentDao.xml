@@ -13,13 +13,19 @@
         select id,name,email,age from student
     </sql>
 
+    <!--在xml文件中，不适用 > < 号，此时使用实体符号 &gt; &lt; -->
     <!--定义只包含列名的动态代码片段-->
     <sql id="studentOne">
         id,name,email,age
     </sql>
-    <select id="selectStudentIf" resultType="com.yunbocheng.entity.Student">
+
+
+
+    <!--以下的if标签中的判断语句只要成立，那边就会将这个if标签中的语句拼接到这个sql语句之后，且不会忽略and、or等关键字-->
+
+    <select id="selectStudentIf" resultType="com.yunbocheng.entity.Student" parameterType="com.yunbocheng.entity.Student">
         select <include refid="studentOne"/> from student
-        where id>0 and
+        where id &gt; 0 and
         <if test="name != null and name != '' ">
             name = #{name}
         </if>

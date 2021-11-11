@@ -79,6 +79,7 @@
         <!--这个mapper可以出现多次，有多少个sql配置文件就有多少个mapper标签-->
         <!--每一个sql配置文件都对应一张数据库表-->
         <mapper resource="com/yunbocheng/dao/StudentDao.xml"/>
+        <!--<package name="com.yunbocheng.dao"/>-->
     </mappers>
 </configuration>
 

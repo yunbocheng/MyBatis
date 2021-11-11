@@ -4,14 +4,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <!--这是坐标-->
-  <groupId>com.yunbocheng</groupId>
-  <artifactId>dynamic-sql</artifactId>
-  <version>1.0</version>
-  <!--以下是打包的方式，可以不加，不加也是jar-->
-  <packaging>jar</packaging>
+  <groupId>org.example</groupId>
+  <artifactId>PageHelper</artifactId>
+  <version>1.0-SNAPSHOT</version>
 
-  <!--这是属性信息-->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -19,48 +15,46 @@
   </properties>
 
   <dependencies>
-
-    <!--默认加的单元测试-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
-      <scope>test</scope>
     </dependency>
 
-    <!--加入mybatis依赖-->
+    <!--添加myBatis依赖-->
     <dependency>
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis</artifactId>
       <version>3.5.7</version>
     </dependency>
-    <!--加入mysql驱动-->
+
+    <!--天添加数据库软连接依赖-->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.23</version>
+      <version>8.0.25</version>
     </dependency>
-    <!--加入PageHelper依赖-->
+
+
+    <!--添加分页查询PageHelper的依赖-->
     <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper</artifactId>
-      <version>5.1.10</version>
+      <version>5.2.1</version>
     </dependency>
-      <dependency>
-          <groupId>org.projectlombok</groupId>
-          <artifactId>lombok</artifactId>
-          <version>RELEASE</version>
-          <scope>compile</scope>
-      </dependency>
 
+    <!--导入lombok的依赖-->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>RELEASE</version>
+      <version>1.18.20</version>
     </dependency>
 
   </dependencies>
+
   <build>
+
+    <!--只要将这个resources标签中放到build标签中就可以，pom.xml文件中-->
     <resources>
       <resource>
         <directory>src/main/java</directory><!--所在的目录-->
@@ -75,5 +69,6 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
+
   </build>
 </project>
