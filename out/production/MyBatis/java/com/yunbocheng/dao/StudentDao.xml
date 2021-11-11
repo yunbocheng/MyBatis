@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace : 里边填写接口路径，这个类在项目中是唯一的，可以保证namespace值唯一-->
+<mapper namespace="com.yunbocheng.dao.StudentDao">
+    <!--resultType ：实现类路径，讲取出的数据传递给Student这个类创建的对象-->
+    <!--查询操作-->
+    <select id="selectStudents" resultType="com.yunbocheng.entity.Student">
+        /* 此时会将以下的数值依此赋值给Student对象 */
+        select id,name,email,age from student order by id;
+    </select>
+
+    <!--插入操作-->
+    <!--这个是插入操作，没有返回值，所以不需要写resultType属性 -->
+    <insert id="insertStudent">
+        insert into student values (#{id},#{name},#{email},#{age});
+    </insert>
+
+    <!--第一种like,java代码指定 like内容-->
+    <select id="selectLikeOne" resultType="com.yunbocheng.entity.Student">
+        select id,name,email,age from student where name like #{name};
+    </select>
+
+    <!--第二种方式 ：在mapper文件中拼接like内容 %程%-->
+    <select id="selectLikeOne" resultType="com.yunbocheng.entity.Student">
+        select id,name,email,age from student where name like "%" #{name} "%";
+    </select>
+</mapper>
+
+<!--
+    mybatis的配置文件：注意，一般是一个表文件一个这种配置文件。
+    这个sql映射文件是写 sql语句的，mybatis会执行这些sql。
+    对于这个sql映射文件的解释：
+    1.指定约束文件
+        <!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+        mybatis-3-mapper.dtd : 是约束文件的名称，扩展名是dtd的。
+    2. 约束文件的作用
+        限制、检查在当前文件中出现的标签，属性必须符合mybatis的要求。
+
+    3.mapper（sql mapper 这个mapper就是映射的意思）：是当前文件的根标签。必须的，不可以改变。
+        namespace ：叫做命名空间，这个空间是一个唯一值。可以是自定义的字符串
+                    要求使用dao接口的【全限定名称】。定位的这个接口，而不是这个xml配置文件
+                    【全限定名称】 = 包名 + 接口名(类名)
+        <mapper namespace="com.yunbocheng.dao.StudentDao">
+
+    4. 在当前文件中，可以使用特定的标签，表示数据库的特定操作。
+       <select> : 表示执行查询，执行的是select语句。
+       <update> : 表示更新数据库的操作，就是在<update>标签中写的是update sql语句
+       <insert> : 表示插入，放的是insert语句
+       <delete> : 表示删除，执行的delete语句
+
+   5. 编写sql语句
+         <select id="selectstudents" resultType="Student">
+        /* 此时会将以下的数值依此赋值给Student对象 */
+        select id,name,email,age from student order by id;
+        </select>
+        id : 代表执行的sql语句的唯一标识，mybatis会使用这个id的值来找到要
+             执行的sql语句。这个id值可以自定义。但是要求使用接口中的方法名称。
+             就相当于使用这个id值来代表这条sql语句。
+        resultType : 代表结果的类型，是sql语句执行后得到的ResultSet，
+                     遍历这个ResultSet得到Java对象的类型。
+                     这个值写类型的全限定名称。
+                    也就是把查询到的数据传递给com.yunbocheng.entity.Student类
+                    此时MyBatis会自动创建出的一个student对象。并给属性赋值。
+                    MyBatis会把从数据库中的id值赋给Student类中id的属性。
+                    MyBatis会把从数据库中的name值赋给Student类中name的属性。
+                    MyBatis会把从数据库中的email值赋给Student类中email的属性。
+                    MyBatis会把从数据库中的age值赋给Student类中age的属性。
+                    返回的这个类型和接口中方法的返回类型一致，都是一个student对象的集合。
+     以上就是一个标准的 mybatis配置文件。
+-->
