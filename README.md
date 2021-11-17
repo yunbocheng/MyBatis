@@ -61,7 +61,7 @@ MyBatis中文手册 :
 
 ## 八、致谢
 
->  1. 感谢动力节点提供的Ajax在线课程视频资料 [MyBatis在线课程](https://www.bilibili.com/video/BV185411s7Ry)
+>  1. 感谢动力节点提供的MyBatis在线课程视频资料 [MyBatis在线课程](https://www.bilibili.com/video/BV185411s7Ry)
 >  2. 感谢JetBrains提供的配套开发环境许可证 [官方网站](https://www.jetbrains.com/)
 >  3. 感谢Gitee提供的图床平台 [相关地址](https://gitee.com/YunboCheng/imageBad)
 
